@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { createClient } from "../../app/services/api/clients";
-import { getTables } from "../../app/services/api/tables";
 import { createReserve } from "../../app/services/api/reserves";
 import "./Reserves.css"; // Asegúrate de que la ruta sea correcta
 
 const Reserves = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [table, setTable] = useState("");
+  const [person, setPerson] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [tables, setTables] = useState([]);
 
-  useEffect(() => {
-    fetchTables();
-  }, []);
 
-  const fetchTables = async () => {
-    const response = await getTables();
-    setTables(response);
-  };
 
   const handleClick = async () => {
     const createdClient = await createClient({
@@ -29,23 +20,17 @@ const Reserves = () => {
 
     const clientId = createdClient.data.id;
 
-    const selectedTable = tables.find((t) => t.numTable === parseInt(table));
-    if (!selectedTable) {
-      alert("Mesa no encontrada");
-      return;
-    }
-
     try {
       await createReserve({
         reservationDate: date,
         reservationTime: time,
-        table: { id: selectedTable.id },
+        numPeople: person,
         user: { id: clientId },
       });
 
       setName("");
       setPhone("");
-      setTable("");
+      setPerson("");
       setDate("");
       setTime("");
 
@@ -76,15 +61,24 @@ const Reserves = () => {
         />
         <select
           className="select-field"
-          value={table}
-          onChange={(e) => setTable(e.target.value)}
+          value={person}
+          onChange={(e) => setPerson(e.target.value)}
         >
-          <option value="">Selecciona una mesa</option>
-          {tables.map((table) => (
-            <option key={table.id} value={table.numTable}>
-              Mesa: {table.numTable}
-            </option>
-          ))}
+          <option value="">Personas</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
         </select>
         <input
           type="date"
