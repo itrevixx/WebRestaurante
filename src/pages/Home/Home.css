@@ -1,0 +1,195 @@
+/* Home.css */
+
+body {
+    font-family: 'Merriweather', serif;
+    /* Fuente aplicada globalmente */
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(15, 57, 55);
+}
+
+.home-container {
+    max-width: 100%;
+    height: 50vh;
+    width: auto;
+    /* Asegúrate de que el contenedor tenga una altura definida */
+    background-image: url('../../assets/openart-image_jD58InH6_1729781199319_raw.png');
+    background-size: cover;
+    /* Cambiado a contain para mostrar toda la imagen */
+    background-repeat: no-repeat;
+    background-position: center;
+    /* Centra la imagen */
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Merriweather', serif;
+    background-color: #f9f7f1;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+        /* Color negro con opacidad para oscurecer la imagen */
+        background-blend-mode: darken;
+        /* Mezcla el color de fondo con la imagen */
+}
+
+/* Importación de la fuente */
+@font-face {
+    font-family: 'CampanaScript';
+    /* Nombre que le asignas a la fuente */
+    src: url('../../assets/CampanaScript_PERSONAL_USE_ONLY.otf') format('opentype');
+    /* Ruta a la fuente */
+    font-weight: normal;
+    /* Peso de la fuente (normal, bold, etc.) */
+    font-style: normal;
+    /* Estilo de la fuente (normal, italic, etc.) */
+}
+.home-container p {
+    font-size: 3.5rem;
+    font-family: CampanaScript;
+    line-height: 1.8;
+    color: white;
+    /* Color del texto suave y legible */
+}
+
+.home-container button {
+    background-color: #7a6f5a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.home-container button:hover {
+    background-color: #5f5647;
+}
+
+
+
+/* Estilos para los menús */
+.menu-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-image: url('../../assets/openart-image_s3nVwC1f_1730111764502_raw.jpg');
+    background-color: rgba(0, 0, 0, 0.5);
+        /* Color negro con opacidad para oscurecer la imagen */
+        background-blend-mode: darken;
+}
+
+.menu {
+    flex-basis: 45%;
+    background-color: #f4efe6;
+    opacity: 0.9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.menu h2 {
+    font-size: 24px;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.menu h3 {
+    font-size: 20px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    font-size: 16px;
+    color: black;
+    padding: 5px 0;
+    
+}
+
+.menu li:last-child {
+    border-bottom: none;
+}
+
+.menu-list-container {
+    display: flex;
+    /* Utiliza flexbox para dividir en columnas */
+    justify-content: space-between;
+    /* Espacio entre las columnas */
+}
+
+.menu-list {
+    list-style: none;
+    /* Elimina las viñetas */
+    padding: 0;
+    /* Elimina el padding */
+    margin: 0;
+    /* Elimina el margen */
+    flex: 1;
+    /* Permite que las columnas ocupen el mismo ancho */
+}
+
+
+/* Estilos adicionales para móviles */
+@media (max-width: 768px) {
+    .menu-container {
+        flex-direction: column;
+    }
+
+    .menu {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+.footer {
+    background-color: #333;
+    /* Color de fondo oscuro */
+    color: #fff;
+    /* Color del texto en blanco */
+    text-align: center;
+    /* Centra el texto */
+    padding: 20px;
+    /* Espaciado interno */
+    position: relative;
+    /* Permite el uso de position absoluto en elementos internos si es necesario */
+    bottom: 0;
+    /* Mantiene el footer en la parte inferior */
+    
+    /* Asegura que el footer ocupe todo el ancho */
+    font-size: 14px;
+    /* Tamaño de fuente más pequeño */
+}
+
+.footer p {
+    margin: 5px 0;
+    /* Espaciado entre párrafos */
+}
+
+/* Estilo adicional para enlaces, si los tienes */
+.footer a {
+    color: #ffcc00;
+    /* Color para enlaces */
+    text-decoration: none;
+    /* Sin subrayado */
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    /* Subrayar al pasar el ratón */
+}
+
+/* Estilos adicionales para móviles */
+@media (max-width: 768px) {
+    .footer {
+        font-size: 12px;
+        /* Tamaño de fuente más pequeño en móviles */
+    }
+}

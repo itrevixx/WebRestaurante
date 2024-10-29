@@ -1,0 +1,72 @@
+
+body {
+    background-image: url('../../assets/openart-image_jD58InH6_1729781199319_raw.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.reserve-container {
+    max-width: 400px;
+    /* Ancho máximo del contenedor */
+    margin: 0 auto;
+    /* Centrar el contenedor */
+    padding: 20px;
+    /* Espacio interno */
+    background-color: #fff;
+    /* Color de fondo */
+    border-radius: 8px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil */
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+
+h2 {
+    text-align: center;
+    /* Centrar el título */
+    color: #333;
+    /* Color del texto */
+}
+
+.input-field,
+.select-field {
+    width: 60%;
+    /* Ancho completo */
+    padding: 10px;
+    /* Espacio interno */
+    margin: 10px 0;
+    /* Espacio superior e inferior */
+    border: 1px solid #ccc;
+    /* Borde gris claro */
+    border-radius: 4px;
+    /* Bordes redondeados */
+    font-size: 16px;
+    /* Tamaño de fuente */
+}
+
+.reserve-button {
+    width: 60%;
+    /* Ancho completo */
+    padding: 10px;
+    /* Espacio interno */
+    background-color: #007bff;
+    /* Color de fondo */
+    color: white;
+    /* Color del texto */
+    border: none;
+    /* Sin borde */
+    border-radius: 4px;
+    /* Bordes redondeados */
+    font-size: 16px;
+    /* Tamaño de fuente */
+    cursor: pointer;
+    /* Cursor de puntero */
+}
+
+.reserve-button:focus {
+    outline: none;
+    /* Quitar contorno al hacer clic */
+}
