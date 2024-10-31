@@ -12,6 +12,11 @@ const Reserves = () => {
   const [time, setTime] = useState("");
 
   const handleClick = async () => {
+    if (!name || !phone || !email || !person || !date || !time) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
+
     const createdClient = await createClient({
       name: name,
       phone: phone,
