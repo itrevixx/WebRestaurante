@@ -6,16 +6,16 @@ import "./Reserves.css"; // Asegúrate de que la ruta sea correcta
 const Reserves = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [person, setPerson] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-
-
 
   const handleClick = async () => {
     const createdClient = await createClient({
       name: name,
       phone: phone,
+      email: email,
     });
 
     const clientId = createdClient.data.id;
@@ -33,6 +33,7 @@ const Reserves = () => {
       setPerson("");
       setDate("");
       setTime("");
+      setEmail("");
 
       alert("Reserva hecha!");
     } catch (error) {
@@ -58,6 +59,13 @@ const Reserves = () => {
           placeholder="Teléfono"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+        />
+        <input
+          type="text"
+          className="input-field"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <select
           className="select-field"
