@@ -1,14 +1,15 @@
 
 body {
-    background-image: url('../../assets/openart-image_jD58InH6_1729781199319_raw.png');
+    /* background-image: url('../../assets/openart-image_jD58InH6_1729781199319_raw.png'); */
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .reserve-container {
     max-width: 400px;
+    /* margin-top: 200px; */
     /* Ancho máximo del contenedor */
-    margin: 0 auto;
+    margin: 200px auto;
     /* Centrar el contenedor */
     padding: 20px;
     /* Espacio interno */
