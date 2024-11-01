@@ -1,36 +1,22 @@
-/* Home.css */
-
 body {
     font-family: 'Merriweather', serif;
-    /* Fuente aplicada globalmente */
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(15, 57, 55);
 }
 
-.home-container {
-    max-width: 100%;
-    height: 50vh;
-    width: auto;
-    /* Asegúrate de que el contenedor tenga una altura definida */
-    background-image: url('../../assets/openart-image_jD58InH6_1729781199319_raw.png');
+.image-container {
+    width: 100%;
+    height: 1000px;
+    position: relative;
+    background-image: url('../../assets/img-comedor1.png');
     background-size: cover;
-    /* Cambiado a contain para mostrar toda la imagen */
     background-repeat: no-repeat;
     background-position: center;
-    /* Centra la imagen */
-    margin: auto;
-    padding: 20px;
+    margin: 0;
+    /* Elimina el margen */
     text-align: center;
-    font-family: 'Merriweather', serif;
-    background-color: #f9f7f1;
-    
     background-color: rgba(0, 0, 0, 0.5);
-        /* Color negro con opacidad para oscurecer la imagen */
-        background-blend-mode: darken;
-        /* Mezcla el color de fondo con la imagen */
+    background-blend-mode: darken;
 }
 
 /* Importación de la fuente */
@@ -44,7 +30,12 @@ body {
     font-style: normal;
     /* Estilo de la fuente (normal, italic, etc.) */
 }
-.home-container p {
+.image-container p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
     font-size: 3.5rem;
     font-family: CampanaScript;
     line-height: 1.8;
@@ -52,7 +43,7 @@ body {
     /* Color del texto suave y legible */
 }
 
-.home-container button {
+.image-container button {
     background-color: #7a6f5a;
     color: white;
     padding: 10px 20px;
@@ -63,7 +54,7 @@ body {
     margin-top: 20px;
 }
 
-.home-container button:hover {
+.image-container button:hover {
     background-color: #5f5647;
 }
 
