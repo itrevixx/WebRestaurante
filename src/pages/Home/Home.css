@@ -1,9 +1,11 @@
+/* Estilos globales */
 body {
     font-family: 'Merriweather', serif;
     margin: 0;
     padding: 0;
 }
 
+/* Contenedor de imagen principal */
 .image-container {
     width: 100%;
     height: 1000px;
@@ -12,37 +14,37 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    margin: 0;
-    /* Elimina el margen */
-    text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
     background-blend-mode: darken;
+    text-align: center;
 }
 
-/* Importación de la fuente */
-@font-face {
-    font-family: 'CampanaScript';
-    /* Nombre que le asignas a la fuente */
-    src: url('../../assets/CampanaScript_PERSONAL_USE_ONLY.otf') format('opentype');
-    /* Ruta a la fuente */
-    font-weight: normal;
-    /* Peso de la fuente (normal, bold, etc.) */
-    font-style: normal;
-    /* Estilo de la fuente (normal, italic, etc.) */
-}
 .image-container p {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    margin: 0;
     font-size: 3.5rem;
     font-family: CampanaScript;
-    line-height: 1.8;
     color: white;
-    /* Color del texto suave y legible */
+    line-height: 1.8;
 }
 
+.img-footer {
+    margin-top: 5px;
+    text-align: center;
+    color: #5f5647;
+}
+
+/* Fuente personalizada */
+@font-face {
+    font-family: 'CampanaScript';
+    src: url('../../assets/CampanaScript_PERSONAL_USE_ONLY.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Botones de la imagen principal */
 .image-container button {
     background-color: #7a6f5a;
     color: white;
@@ -58,129 +60,270 @@ body {
     background-color: #5f5647;
 }
 
-
-
-/* Estilos para los menús */
-.menu-container {
+/* Sección de imagen y contenido alineado a la izquierda */
+.row-img-left {
     display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    background-image: url('../../assets/openart-image_s3nVwC1f_1730111764502_raw.jpg');
-    background-color: rgba(0, 0, 0, 0.5);
-        /* Color negro con opacidad para oscurecer la imagen */
-        background-blend-mode: darken;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
 }
 
-.menu {
-    flex-basis: 45%;
-    background-color: #f4efe6;
-    opacity: 0.9;
+.row-img-left img {
+    width: 40%;
+    border-radius: 25px;
+    height: 350px;
+    object-fit: cover;
+    margin: 50px 0px;
+}
+
+.col-right {
+    width: 40%;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    color: #5f5647;
+    font-size: 18px;
+    line-height: 1.5;
 }
 
-.menu h2 {
-    font-size: 24px;
+.col-right h1 {
     color: black;
+    text-align: left;
+    font-size: 32px;
+    margin-top: 0;
+}
+
+.col-right h2 {
+    text-align: left;
+    font-size: 24px;
+    margin-top: 0;
+}
+
+.col-right p {
+    text-align: left;
+    font-size: 20px;
+}
+
+
+.banner-img {
+    position: relative;
+    background-image: url('../../assets/chuleton.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 600px;
+    margin: 0;
+    background-attachment: fixed;
+    /* Establece el efecto parallax */
+    background-position: center;
+    /* Centra la imagen */
+}
+
+.banner-img::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.banner-img-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+    color: white;
+    z-index: 2;
+}
+
+.banner-img-content h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
     margin-bottom: 20px;
 }
 
-.menu h3 {
+.banner-img-content p {
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.banner-img-content button {
+    font-weight: bold;
+    background-color: white;
     color: black;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    align-self: flex-start;
+}
+
+.banner-img-content button:hover {
+    background-color: black;
+    transition: 0.5s;
+    color: white;
+}
+
+/* Nueva sección "Descubre el Kamado" */
+.banner-img-kamado {
+    position: relative;
+    background-image: url('../../assets/kamado.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 600px;
+    margin: 0;
+}
+
+.banner-img-kamado::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.banner-img-kamado .banner-img2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centra el contenido horizontalmente */
+    justify-content: center;
+    /* Centra el contenido verticalmente */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    /* Alineación de texto centrada */
+    color: white;
+    z-index: 2;
+}
+
+.banner-img-kamado .banner-img2 h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    /* Asegura que el texto del h1 esté centrado */
+}
+
+.banner-img-kamado .banner-img2 p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Sección de imagen y contenido alineado a la derecha */
+.row-img-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    height: 600px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.menu ul {
-    list-style: none;
-    padding: 0;
-}
-
-.menu li {
-    font-size: 16px;
-    color: black;
-    padding: 5px 0;
-    
-}
-
-.menu li:last-child {
-    border-bottom: none;
-}
-
-.menu-list-container {
+.col-left {
+    width: 40%;
+    padding: 20px;
+    text-align: center;
+    color: #5f5647;
+    font-size: 18px;
+    line-height: 1.5;
     display: flex;
-    /* Utiliza flexbox para dividir en columnas */
-    justify-content: space-between;
-    /* Espacio entre las columnas */
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.menu-list {
-    list-style: none;
-    /* Elimina las viñetas */
-    padding: 0;
-    /* Elimina el padding */
+.col-left h1 {
+    color: black;
+    text-align: left;
+    font-size: 32px;
+    margin-top: 0;
+}
+
+.col-left h2 {
+    text-align: left;
+    font-size: 24px;
+    margin-top: 0;
+}
+
+.col-left p {
+    text-align: left;
+    font-size: 20px;
     margin: 0;
-    /* Elimina el margen */
-    flex: 1;
-    /* Permite que las columnas ocupen el mismo ancho */
 }
 
-
-/* Estilos adicionales para móviles */
-@media (max-width: 768px) {
-    .menu-container {
-        flex-direction: column;
-    }
-
-    .menu {
-        flex-basis: 100%;
-        margin-bottom: 20px;
-    }
+.col-left button {
+    font-weight: bold;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    align-self: flex-start;
 }
 
+.col-left button:hover {
+    background-color: white;
+    color: black;
+    transition: 0.5s;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.row-img-right img {
+    width: 40%;
+    border-radius: 25px;
+    height: 350px;
+    object-fit: cover;
+    margin: 50px 0px;
+}
+
+/* Footer */
 .footer {
     background-color: #333;
-    /* Color de fondo oscuro */
     color: #fff;
-    /* Color del texto en blanco */
     text-align: center;
-    /* Centra el texto */
     padding: 20px;
-    /* Espaciado interno */
     position: relative;
-    /* Permite el uso de position absoluto en elementos internos si es necesario */
     bottom: 0;
-    /* Mantiene el footer en la parte inferior */
-    
-    /* Asegura que el footer ocupe todo el ancho */
     font-size: 14px;
-    /* Tamaño de fuente más pequeño */
 }
 
 .footer p {
     margin: 5px 0;
-    /* Espaciado entre párrafos */
 }
 
-/* Estilo adicional para enlaces, si los tienes */
 .footer a {
     color: #ffcc00;
-    /* Color para enlaces */
     text-decoration: none;
-    /* Sin subrayado */
 }
 
 .footer a:hover {
     text-decoration: underline;
-    /* Subrayar al pasar el ratón */
 }
 
-/* Estilos adicionales para móviles */
+/* Responsividad */
 @media (max-width: 768px) {
     .footer {
         font-size: 12px;
-        /* Tamaño de fuente más pequeño en móviles */
     }
 }

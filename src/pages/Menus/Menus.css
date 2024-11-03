@@ -1,5 +1,59 @@
+/* Estilos para los menús */
+.menu-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  background-image: url('../../assets/openart-image_s3nVwC1f_1730111764502_raw.jpg');
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: darken;
+}
+
 .menu {
-  /* margin: 200px auto; */
-  margin-top: 300px;
-  /* background-color: beige; */
+  margin-top: 200px;
+  flex-basis: 45%;
+  background-color: white;
+  opacity: 0.9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.menu h2 {
+  font-size: 24px;
+  color: black;
+  margin-bottom: 20px;
+}
+
+.menu h3 {
+  font-size: 20px;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  font-size: 16px;
+  color: black;
+  padding: 5px 0;
+}
+
+.menu li:last-child {
+  border-bottom: none;
+}
+
+.menu-list-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
 }
