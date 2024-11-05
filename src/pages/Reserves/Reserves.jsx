@@ -48,8 +48,8 @@ const Reserves = () => {
   };
 
   return (
-    <div>
-      <div className="reserve-container">
+    <div className="reserve-container">
+      <div className="reserve-form">
         <h2>Reserva una Mesa</h2>
         <input
           type="text"

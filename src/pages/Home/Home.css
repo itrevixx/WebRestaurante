@@ -14,7 +14,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.);
     background-blend-mode: darken;
     text-align: center;
 }
@@ -67,10 +67,11 @@ body {
     align-items: center;
     gap: 20px;
     width: 100%;
+    height: 600px;
 }
 
-.row-img-left img {
-    width: 40%;
+.row-img-left img {         /* ROW con imagen a la izquierda */
+    width: 30%;
     border-radius: 25px;
     height: 350px;
     object-fit: cover;
@@ -78,7 +79,8 @@ body {
 }
 
 .col-right {
-    width: 40%;
+    margin:100px 0px;
+    width: 30%;
     padding: 20px;
     text-align: center;
     color: #5f5647;
@@ -89,19 +91,19 @@ body {
 .col-right h1 {
     color: black;
     text-align: left;
-    font-size: 32px;
-    margin-top: 0;
+    font-size: 3rem;
+    margin: 0;
 }
 
 .col-right h2 {
     text-align: left;
-    font-size: 24px;
-    margin-top: 0;
+    font-size: 2rem;
+    margin: 0;
 }
 
 .col-right p {
     text-align: left;
-    font-size: 20px;
+    font-size: 1.5rem;
 }
 
 
@@ -224,23 +226,20 @@ body {
 .banner-img-kamado .banner-img2 p {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
-    margin-bottom: 20px;
 }
 
-/* Sección de imagen y contenido alineado a la derecha */
-.row-img-right {
+.row-img-right {            /* ROW con imagen a la derecha */
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
     width: 100%;
     height: 600px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    /* margin: 100px 0px; */
 }
 
 .col-left {
-    width: 40%;
+    width: 30%;
     padding: 20px;
     text-align: center;
     color: #5f5647;
@@ -254,19 +253,19 @@ body {
 .col-left h1 {
     color: black;
     text-align: left;
-    font-size: 32px;
-    margin-top: 0;
+    font-size: 2.5rem;
+    margin: 0;
 }
 
 .col-left h2 {
     text-align: left;
-    font-size: 24px;
+    font-size: 1.7rem;
     margin-top: 0;
 }
 
 .col-left p {
     text-align: left;
-    font-size: 20px;
+    font-size: 1.5rem;
     margin: 0;
 }
 
@@ -290,11 +289,10 @@ body {
 }
 
 .row-img-right img {
-    width: 40%;
+    width: 30%;
     border-radius: 25px;
     height: 350px;
     object-fit: cover;
-    margin: 50px 0px;
 }
 
 /* Footer */
@@ -302,23 +300,10 @@ body {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     position: relative;
     bottom: 0;
     font-size: 14px;
-}
-
-.footer p {
-    margin: 5px 0;
-}
-
-.footer a {
-    color: #ffcc00;
-    text-decoration: none;
-}
-
-.footer a:hover {
-    text-decoration: underline;
 }
 
 /* Responsividad */

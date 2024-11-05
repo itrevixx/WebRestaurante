@@ -1,31 +1,40 @@
 body {
     font-family: 'CampanaScript';
-    /* Nombre que le asignas a la fuente */
     src: url('../../assets/CampanaScript_PERSONAL_USE_ONLY.otf') format('opentype');
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
 }
 
-
 nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Fondo marrón semi-transparente */
-    background-color: rgba(43, 27, 27, 0.9);
-    padding: 1rem 0;
+    /* Centra horizontalmente */
     position: fixed;
+    width: 100%;
+    z-index: 1000;
+    outline: 2px solid rgba(43, 27, 27, 0.9);
+    background-color: black;
+}
+
+nav::before {
+    content: "";
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
+    height: 100%;
+    background-image: url(../assets/madera.jpg);
+    background-size: cover;
+    opacity: 0.4;
+    /* Ajusta este valor para la opacidad */
+    z-index: -1;
 }
 
 .logo-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 0.5rem;
 }
 
 .logo {
@@ -35,14 +44,16 @@ nav {
 
 .nav-links {
     display: flex;
-    justify-content: center;
     list-style: none;
     padding: 0;
     margin: 0;
+    justify-content: center;
+    /* Alinea los enlaces en el centro */
 }
 
 .nav-links li {
     margin: 0 15px;
+    margin-bottom: 20px;    
 }
 
 nav a {
@@ -59,7 +70,4 @@ main {
     max-width: 100%;
     background-color: white;
     margin: 0 auto;
-    /* margin-top: 150px; */
-    /* Ajuste según la altura del nav para evitar superposición */
-    /* padding: 20px; */
 }
