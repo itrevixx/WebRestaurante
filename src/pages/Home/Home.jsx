@@ -63,7 +63,7 @@ const Home = () => {
 
       <div className="row-img-right">
         <div className="col-left">
-          <h1>DESCUBRE NUESTROS MENÚS PARA GRUPOS</h1>
+          <h1>DESCUBRE NUESTROS MENÚS</h1>
           <h2>Siéntete como en casa</h2>
           <p>
             Nuestro restaurante está localizado en una típica casa catalana del

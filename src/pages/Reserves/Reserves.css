@@ -5,11 +5,18 @@ body {
     background-repeat: no-repeat;
 }
 
+
 .reserve-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.reserve-form {
     max-width: 400px;
-    /* margin-top: 200px; */
     /* Ancho máximo del contenedor */
-    margin: 200px auto;
+    margin: 0 auto;
     /* Centrar el contenedor */
     padding: 20px;
     /* Espacio interno */
@@ -34,7 +41,7 @@ h2 {
 
 .input-field,
 .select-field {
-    width: 60%;
+    width: 100%;
     /* Ancho completo */
     padding: 10px;
     /* Espacio interno */
@@ -49,7 +56,7 @@ h2 {
 }
 
 .reserve-button {
-    width: 60%;
+    width: 50%;
     /* Ancho completo */
     padding: 10px;
     /* Espacio interno */
