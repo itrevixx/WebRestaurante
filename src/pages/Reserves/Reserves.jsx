@@ -42,7 +42,7 @@ const Reserves = () => {
 
       alert("Reserva hecha!");
     } catch (error) {
-      console.error("Error creating reservation:", error); // Muestra el error en la consola
+      console.error("Error creating reservation:", error);
       alert("La mesa ya tiene una reserva para el " + date);
     }
   };
