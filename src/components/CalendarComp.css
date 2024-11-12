@@ -2,11 +2,7 @@
     color: black;
 }
 
-/* Cambia el color del número al hacer hover */
-.react-calendar__month-view__days__day--weekend:hover {
-    color: white;
-    /* O el color que prefieras */
-}
+
 
 .react-calendar__month-view__days__day--weekend.react-calendar__tile--active {
     color: white;

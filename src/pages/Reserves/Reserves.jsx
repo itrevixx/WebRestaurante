@@ -8,13 +8,28 @@ const Reserves = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [person, setPerson] = useState("");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
+  const [adultsCounter, setAdultsCounter] = useState(0);
+  const [kidsCounter, setKidsCounter] = useState(0);
+  const persons = kidsCounter + adultsCounter;
 
   const handleClick = async () => {
-    if (!name || !phone || !email || !person || !time || !date) {
+    if (
+      !name ||
+      !phone ||
+      !email ||
+      (!kidsCounter && !adultsCounter) ||
+      !time ||
+      !date
+    ) {
       alert("Por favor, completa todos los campos.");
+      return;
+    }
+
+    // Verificar si el email contiene '@'
+    if (!email.includes("@")) {
+      alert("Introduce un email válido.");
       return;
     }
 
@@ -30,28 +45,56 @@ const Reserves = () => {
       await createReserve({
         reservationDate: date,
         reservationTime: time,
-        numPeople: person,
+        numPeople: persons,
         user: { id: clientId },
       });
 
       setName("");
       setPhone("");
-      setPerson("");
       setDate(new Date());
       setTime("");
       setEmail("");
+      setAdultsCounter(0);
+      setKidsCounter(0);
 
       alert("Reserva hecha!");
     } catch (error) {
       console.error("Error creating reservation:", error);
-      alert("La mesa ya tiene una reserva para el " + date);
     }
   };
+
+  const incrementAdults = () => setAdultsCounter((prev) => prev + 1);
+  const decrementAdults = () =>
+    setAdultsCounter((prev) => Math.max(0, prev - 1));
+  const incrementKids = () => setKidsCounter((prev) => prev + 1);
+  const decrementKids = () => setKidsCounter((prev) => Math.max(0, prev - 1));
 
   return (
     <div className="reserve-container">
       <div className="reserve-form">
         <h2>Reserva una Mesa</h2>
+        <h2>Adultos</h2>
+        <div className="counter-group">
+          <button onClick={decrementAdults} disabled={adultsCounter === 0}>
+            -
+          </button>
+          <input
+            type="number"
+            className="adults"
+            value={adultsCounter}
+            readOnly
+          />
+          <button onClick={incrementAdults}>+</button>
+        </div>
+
+        <h2>Niños</h2>
+        <div className="counter-group">
+          <button onClick={decrementKids} disabled={kidsCounter === 0}>
+            -
+          </button>
+          <input type="number" className="kids" value={kidsCounter} readOnly />
+          <button onClick={incrementKids}>+</button>
+        </div>
         <input
           type="text"
           className="input-field"
@@ -73,33 +116,6 @@ const Reserves = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <select
-          className="select-field"
-          value={person}
-          onChange={(e) => setPerson(e.target.value)}
-        >
-          <option value="">Personas</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-        </select>
-        {/* <input
-          type="date"
-          className="input-field"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        /> */}
         <CalendarComp date={date} setDate={setDate} />
         <select
           className="select-field"

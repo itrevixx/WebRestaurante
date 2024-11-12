@@ -6,6 +6,7 @@ body {
     background-color: #f4f4f4;
 }
 
+
 nav {
     display: flex;
     flex-direction: column;
@@ -17,6 +18,7 @@ nav {
     outline: 2px solid rgba(43, 27, 27, 0.9);
     background-color: black;
 }
+
 
 nav::before {
     content: "";
@@ -32,15 +34,18 @@ nav::before {
     z-index: -1;
 }
 
+
 .logo-container {
     display: flex;
     justify-content: center;
 }
 
+
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
 }
+
 
 .nav-links {
     display: flex;
@@ -51,10 +56,12 @@ nav::before {
     /* Alinea los enlaces en el centro */
 }
 
+
 .nav-links li {
     margin: 0 15px;
     margin-bottom: 20px;    
 }
+
 
 nav a {
     color: white;
@@ -62,9 +69,11 @@ nav a {
     font-weight: bold;
 }
 
+
 nav a:hover {
     text-decoration: underline;
 }
+
 
 main {
     max-width: 100%;
