@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "../../app/services/api/clients";
 import { createReserve } from "../../app/services/api/reserves";
-import "./Reserves.css"; // Asegúrate de que la ruta sea correcta
+import "./Reserves.css";
 import CalendarComp from "../../components/CalendarComp";
+import { isToday, isAfter, addMinutes, set } from "date-fns";
 
 const Reserves = () => {
   const [name, setName] = useState("");
@@ -13,6 +14,43 @@ const Reserves = () => {
   const [adultsCounter, setAdultsCounter] = useState(0);
   const [kidsCounter, setKidsCounter] = useState(0);
   const persons = kidsCounter + adultsCounter;
+  const [filteredTimes, setFilteredTimes] = useState([]);
+
+  const times = [
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "20:00",
+    "20:30",
+    "21:00",
+    "21:30",
+    "22:00",
+  ];
+
+  useEffect(() => {
+    const filterTimes = () => {
+      const now = new Date();
+      //Si la fecha que se selecciona en el calendario es hoy, va a filtrar las horas que sean mayores a la hora actual + 30 minutos
+      if (isToday(date)) {
+        const validTimes = times.filter((time) => {
+          //con split separamos las horas y los minutos del array de times y los transformamos a número de "13:30" a [13, 30].
+          const [hour, minute] = time.split(":").map(Number);
+          //seteamos la fecha usando la fecha seleccionada y la hora y minutos del array de time
+          const selectedDateTime = set(date, { hours: hour, minutes: minute });
+          //Si selectedDateTime es posterior a la hora actual mas 30 minutos, nos devuelve true y se almacena en el array de ValidTimes
+          return isAfter(selectedDateTime, addMinutes(now, 30));
+        });
+        setFilteredTimes(validTimes);
+        //Si la fecha es futura, va a mostrar todas las horas posibles de times
+      } else {
+        setFilteredTimes(times);
+      }
+    };
+
+    filterTimes();
+  }, [date]);
 
   const handleClick = async () => {
     if (
@@ -123,15 +161,11 @@ const Reserves = () => {
           onChange={(e) => setTime(e.target.value)}
         >
           <option value="">Selecciona una hora</option>
-          <option value="13:00">13:00</option>
-          <option value="13:15">13:15</option>
-          <option value="13:30">13:30</option>
-          <option value="13:45">13:45</option>
-          <option value="14:00">14:00</option>
-          <option value="14:15">14:15</option>
-          <option value="14:30">14:30</option>
-          <option value="14:45">14:45</option>
-          <option value="15:00">15:00</option>
+          {filteredTimes.map((availableTime) => (
+            <option key={availableTime} value={availableTime}>
+              {availableTime}
+            </option>
+          ))}
         </select>
         <button className="reserve-button" onClick={handleClick}>
           Reservar
