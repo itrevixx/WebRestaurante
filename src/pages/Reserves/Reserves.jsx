@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import { createClient } from "../../app/services/api/clients";
 import { createReserve } from "../../app/services/api/reserves";
 import "./Reserves.css"; // Asegúrate de que la ruta sea correcta
+import CalendarComp from "../../components/CalendarComp";
 
 const Reserves = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [person, setPerson] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
 
   const handleClick = async () => {
-    if (!name || !phone || !email || !person || !date || !time) {
+    if (!name || !phone || !email || !person || !time || !date) {
       alert("Por favor, completa todos los campos.");
       return;
     }
@@ -36,7 +37,7 @@ const Reserves = () => {
       setName("");
       setPhone("");
       setPerson("");
-      setDate("");
+      setDate(new Date());
       setTime("");
       setEmail("");
 
@@ -93,12 +94,13 @@ const Reserves = () => {
           <option value="13">13</option>
           <option value="14">14</option>
         </select>
-        <input
+        {/* <input
           type="date"
           className="input-field"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-        />
+        /> */}
+        <CalendarComp date={date} setDate={setDate} />
         <select
           className="select-field"
           value={time}
