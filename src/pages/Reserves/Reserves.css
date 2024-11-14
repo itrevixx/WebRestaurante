@@ -1,37 +1,54 @@
+/* Reset de márgenes y padding */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Contenedor principal de la reserva */
 .reserve-container {
-    background-color: #9e9a9a;
-    background-repeat: no-repeat;
-    background-size: cover;
-    /* Mantiene la imagen ajustada y cubriendo el área */
-    background-position: center;
-    /* Centra la imagen */
     display: flex;
     justify-content: center;
+    /* Centra el formulario horizontalmente */
     align-items: center;
-    height: 100%;
-    /* Asegura que ocupe toda la altura de la ventana */
+    /* Centra el formulario verticalmente */
+    min-height: 100vh;
+    /* Asegura que el contenedor ocupe al menos el alto de la pantalla */
+    background-image: url('../../assets/fondo-reserva.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 40px;
+    /* Añade espacio solo en la parte superior */
     font-family: Arial, sans-serif;
 }
 
+/* Título de la sección */
+h2 {
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+}
+
+h3 {
+        margin: 0;
+}
+
+/* Formulario de reserva */
 .reserve-form {
-    width: 400px;
-    margin: 0    auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #d1cfb8;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 
-h2 {
-    text-align: center;
-    color: #333;
-}
-
-
+/* Campos de entrada */
 .input-field {
     width: 75%;
     padding: 10px;
@@ -41,6 +58,7 @@ h2 {
     font-size: 16px;
 }
 
+/* Campo select */
 .select-field {
     width: 80%;
     padding: 10px;
@@ -50,52 +68,52 @@ h2 {
     font-size: 16px;
 }
 
-
-/* Contador de adultos y niños */
+/* Contenedor de los contadores */
 .counter-group {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 50%;
-    height: 100%;
+    justify-content: center;
+    width: 100%; /* Cambiado a 100% para ocupar todo el espacio */
+    max-width: 300px; /* Tamaño máximo ajustable */
     margin: 10px 0;
-    /* border: 1px solid #ccc; */
-    border-radius: 4px;
-    padding: 10px;
 }
 
-
-
-.counter-group h2 {
-    flex: 1;
-    text-align: center;
-    font-size: 16px;
-    color: #333;
-}
-
-
+/* Botones de incremento y decremento */
 .counter-group button {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     font-size: 18px;
     color: #333;
+    background-color: #f1f1f1;
     border: 1px solid #ccc;
-    background-color: #f9f9f9;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-
+/* Input del contador */
 .counter-group input {
-    width: 100%;
-    height: 100%;
+    width: 130px; /* Ajustado al tamaño de los botones */
+    height: 40px; /* Igual a la altura de los botones */
     text-align: center;
     font-size: 16px;
-    border: none;
-    padding: 5px;
     border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* Asegura que los bordes y padding no afecten las dimensiones */
 }
 
+/* Efecto hover sobre los botones */
+.counter-group button:hover {
+    background-color: #d4a356;
+    color: white;
+}
+
+/* Estilo del input al recibir focus */
+.counter-group input:focus {
+    outline: none;
+    border-color: #d4a356;
+}
 
 /* Botón de reserva */
 .reserve-button {
@@ -109,13 +127,18 @@ h2 {
     font-weight: bold;
     cursor: pointer;
     margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
+/* Efecto hover sobre el botón de reserva */
+.reserve-button:hover {
+    background-color: rgb(255, 136, 0);
+}
 
+/* Estilo del botón de reserva al estar enfocado */
 .reserve-button:focus {
     outline: none;
 }
-
 
 /* Información de contacto */
 .contact-info {
@@ -125,12 +148,11 @@ h2 {
     margin-top: 10px;
 }
 
-
+/* Enlaces en la sección de contacto */
 .contact-info a {
     color: #d4a356;
     text-decoration: none;
 }
-
 
 /* Cambio de idioma */
 .language-switch {
