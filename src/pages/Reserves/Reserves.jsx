@@ -101,17 +101,39 @@ const Reserves = () => {
     }
   };
 
-  const incrementAdults = () => setAdultsCounter((prev) => prev + 1);
-  const decrementAdults = () =>
-    setAdultsCounter((prev) => Math.max(0, prev - 1));
-  const incrementKids = () => setKidsCounter((prev) => prev + 1);
-  const decrementKids = () => setKidsCounter((prev) => Math.max(0, prev - 1));
+  // Incrementa el contador de adultos en 1
+  const incrementAdults = () => {
+    setAdultsCounter((previousValue) => {
+      return previousValue + 1;
+    });
+  };
+
+  // Incrementa el contador de niños en 1.
+  const incrementKids = () => {
+    setKidsCounter((previousValue) => {
+      return previousValue + 1;
+    });
+  };
+
+  // Disminuye el contador de adultos en 1, pero no baja de 0.
+  const decrementAdults = () => {
+    setAdultsCounter((previousValue) => {
+      return Math.max(0, previousValue - 1);
+    });
+  };
+
+  // Disminuye el contador de niños en 1, pero no baja de 0.
+  const decrementKids = () => {
+    setKidsCounter((previousValue) => {
+      return Math.max(0, previousValue - 1);
+    });
+  };
 
   return (
     <div className="reserve-container">
       <div className="reserve-form">
         <h2>Reserva una Mesa</h2>
-        <h2>Adultos</h2>
+        <h3>Adultos</h3>
         <div className="counter-group">
           <button onClick={decrementAdults} disabled={adultsCounter === 0}>
             -
@@ -120,17 +142,22 @@ const Reserves = () => {
             type="number"
             className="adults"
             value={adultsCounter}
-            readOnly
+            onChange={(e) => setAdultsCounter(Number(e.target.value))}
           />
           <button onClick={incrementAdults}>+</button>
         </div>
 
-        <h2>Niños</h2>
+        <h3>Niños</h3>
         <div className="counter-group">
           <button onClick={decrementKids} disabled={kidsCounter === 0}>
             -
           </button>
-          <input type="number" className="kids" value={kidsCounter} readOnly />
+          <input
+            type="number"
+            className="kids"
+            value={kidsCounter}
+            onChange={(e) => setKidsCounter(Number(e.target.value))}
+          />
           <button onClick={incrementKids}>+</button>
         </div>
         <input
