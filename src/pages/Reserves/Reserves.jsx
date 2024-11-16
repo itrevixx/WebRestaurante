@@ -4,6 +4,7 @@ import { createReserve } from "../../app/services/api/reserves";
 import "./Reserves.css";
 import CalendarComp from "../../components/CalendarComp";
 import { isToday, isAfter, addMinutes, set } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const Reserves = () => {
   const [name, setName] = useState("");
@@ -13,8 +14,8 @@ const Reserves = () => {
   const [time, setTime] = useState("");
   const [adultsCounter, setAdultsCounter] = useState(0);
   const [kidsCounter, setKidsCounter] = useState(0);
-  const persons = kidsCounter + adultsCounter;
   const [filteredTimes, setFilteredTimes] = useState([]);
+  const navigate = useNavigate();
 
   const times = [
     "13:30",
@@ -31,24 +32,26 @@ const Reserves = () => {
 
   useEffect(() => {
     const filterTimes = () => {
-      const now = new Date();
-      //Si la fecha que se selecciona en el calendario es hoy, va a filtrar las horas que sean mayores a la hora actual + 30 minutos
+      const now = new Date(); // Obtenemos la fecha y hora actual
+      // Si la fecha seleccionada en el calendario es el día de hoy:
       if (isToday(date)) {
+        // Filtramos las horas disponibles para mostrar solo las que sean mayores a la hora actual + 30 minutos
         const validTimes = times.filter((time) => {
-          //con split separamos las horas y los minutos del array de times y los transformamos a número de "13:30" a [13, 30].
+          // Usamos el método split para separar la hora y los minutos de cada elemento en el array 'times' (ejemplo: "13:30" se convierte en [13, 30])
           const [hour, minute] = time.split(":").map(Number);
-          //seteamos la fecha usando la fecha seleccionada y la hora y minutos del array de time
+          // Usamos 'set' para crear una nueva fecha con la hora y minutos seleccionados, pero manteniendo la misma fecha que se eligió en el calendario
           const selectedDateTime = set(date, { hours: hour, minutes: minute });
-          //Si selectedDateTime es posterior a la hora actual mas 30 minutos, nos devuelve true y se almacena en el array de ValidTimes
+          // Comprobamos si la fecha y hora seleccionada es después de la hora actual + 30 minutos
+          // Si es así, agregamos esa hora a la lista de horas válidas
           return isAfter(selectedDateTime, addMinutes(now, 30));
         });
+        // Guardamos en el estado las horas que cumplen con el filtro
         setFilteredTimes(validTimes);
-        //Si la fecha es futura, va a mostrar todas las horas posibles de times
+        // Si la fecha seleccionada es un día futuro (no hoy), mostramos todas las horas disponibles
       } else {
         setFilteredTimes(times);
       }
     };
-
     filterTimes();
   }, [date]);
 
@@ -83,7 +86,8 @@ const Reserves = () => {
       await createReserve({
         reservationDate: date,
         reservationTime: time,
-        numPeople: persons,
+        adults: adultsCounter,
+        children: kidsCounter,
         user: { id: clientId },
       });
 
@@ -96,6 +100,7 @@ const Reserves = () => {
       setKidsCounter(0);
 
       alert("Reserva hecha!");
+      navigate("/");
     } catch (error) {
       console.error("Error creating reservation:", error);
     }

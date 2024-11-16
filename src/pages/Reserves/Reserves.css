@@ -17,7 +17,8 @@ body {
     background-image: url('../../assets/fondo-reserva.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 40px;
+    padding-top: 100px;
+    padding-bottom: 20px;
     /* Añade espacio solo en la parte superior */
     font-family: Arial, sans-serif;
 }
