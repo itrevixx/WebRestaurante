@@ -18,7 +18,6 @@ nav {
     height: 60px;
     /* Altura ajustada de la barra */
     z-index: 1000;
-    outline: 2px solid rgba(43, 27, 27, 0.9);
     background-color: rgb(24, 24, 24);
     padding: 0 20px;
     /* Espacio horizontal */

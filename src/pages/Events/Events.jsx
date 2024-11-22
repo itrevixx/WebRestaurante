@@ -1,11 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import Mapa from "../../components/Mapa";
 import bodaexterior from "../../assets/boda-exterior.jpg";
 import "./Events.css";
 
-const navigateMenus = () => {
-  navigate("/menus");
-};
 const Events = () => {
+  const navigate = useNavigate();
+
+  const navigateMenus = () => {
+    navigate("/menus");
+  };
+
   return (
     <div className="events-container">
       <div className="events-image-container">
