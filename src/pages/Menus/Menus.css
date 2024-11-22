@@ -1,59 +1,76 @@
-/* Estilos para los menús */
-.menu-container {
-  display: flex;
-  justify-content: space-around;
-  padding: 20px;
-  background-image: url('../../assets/openart-image_s3nVwC1f_1730111764502_raw.jpg');
-  background-color: rgba(0, 0, 0, 0.5);
-  background-blend-mode: darken;
+/* Estilos globales */
+body {
+  font-family: 'Merriweather', serif;
+  margin: 0;
+  padding: 0;
 }
 
-.menu {
-  margin-top: 200px;
-  flex-basis: 45%;
-  background-color: white;
-  opacity: 0.9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* Contenedor de imagen principal */
+.menu-image-container {
+  margin: 0;
+  width: 100%;
+  height: 1000px;
+  position: relative;
+  background-image: url('../../assets/patatas.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: darken;
   text-align: center;
 }
 
-.menu h2 {
-  font-size: 24px;
-  color: black;
-  margin-bottom: 20px;
+.menu-image-container p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3.5rem;
+  color: white;
+  line-height: 1.8;
 }
 
-.menu h3 {
-  font-size: 20px;
-  color: black;
-  margin-bottom: 10px;
+.img-footer {
+  margin-top: 5px;
+  text-align: center;
+  color: #5f5647;
 }
 
-.menu ul {
-  list-style: none;
+.menus-links {
+  margin: 7rem 0;
+  text-align: center;
+}
+
+.menus-list {
+  list-style-type: none;
   padding: 0;
-}
-
-.menu li {
-  font-size: 16px;
-  color: black;
-  padding: 5px 0;
-}
-
-.menu li:last-child {
-  border-bottom: none;
-}
-
-.menu-list-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
+  cursor: pointer;
 }
 
-.menu-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex: 1;
+.menus-list li {
+  display: inline-block;
+  background-color: black;
+  border-radius: 15px;
+  padding: 20px 35px;
+  transition: background-color 0.5s; /* Transición aplicada en el estado base */
+}
+
+.menus-list li:hover {
+  background-color: white; /* Cambio de fondo con transición */
+  border: 1px solid black;
+}
+
+.menus-list a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1.6rem;
+  transition: color 0.3s; /* Transición aplicada en el estado base */
+}
+
+.menus-list a:hover {
+  color: black; /* Cambio de color del texto con transición */
 }

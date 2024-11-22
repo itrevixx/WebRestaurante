@@ -6,7 +6,7 @@ body {
 }
 
 /* Contenedor de imagen principal */
-.image-container {
+.home-image-container {
     width: 100%;
     height: 1000px;
     position: relative;
@@ -14,35 +14,35 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
     background-blend-mode: darken;
     text-align: center;
 }
 
-.image-container p {
+.home-image-container p {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 3.5rem;
-    font-family: CampanaScript;
+    font-family:serif;
     color: white;
     line-height: 1.8;
 }
 
-.img-footer {
+.home-img-footer {
     margin-top: 5px;
     text-align: center;
     color: #5f5647;
 }
 
 /* Fuente personalizada */
-@font-face {
+/* @font-face {
     font-family: 'CampanaScript';
     src: url('../../assets/CampanaScript_PERSONAL_USE_ONLY.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
-}
+} */
 
 /* Botones de la imagen principal */
 .image-container button {

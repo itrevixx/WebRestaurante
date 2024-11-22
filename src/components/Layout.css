@@ -6,75 +6,91 @@ body {
     background-color: #f4f4f4;
 }
 
-
+/* Contenedor de la barra de navegación */
 nav {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    /* Centra horizontalmente */
+    /* Centra verticalmente los elementos dentro del nav */
+    justify-content: space-between;
+    /* Espacio entre el logo a la izquierda y los enlaces al centro */
     position: fixed;
     width: 100%;
+    height: 60px;
+    /* Altura ajustada de la barra */
     z-index: 1000;
     outline: 2px solid rgba(43, 27, 27, 0.9);
-    background-color: black;
+    background-color: rgb(24, 24, 24);
+    padding: 0 20px;
+    /* Espacio horizontal */
 }
 
-
-nav::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url(../assets/madera.jpg);
-    background-size: cover;
-    opacity: 0.4;
-    /* Ajusta este valor para la opacidad */
-    z-index: -1;
-}
-
-
+/* Estilo para el contenedor del logo */
 .logo-container {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    /* Centra el logo verticalmente */
 }
 
-
+/* Estilo del logo */
 .logo {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Suaviza el cambio de color y escala */
 }
 
+/* Hover en el logo */
+.logo:hover {
+    filter: brightness(1.2) sepia(1) saturate(2) hue-rotate(25deg);
+    /* Cambia el color al tono burlywood */
+    transform: scale(1.1);
+    /* Añade un pequeño efecto de zoom */
+    cursor: pointer;
+    /* Cambia el cursor al símbolo de una mano */
+}
 
+/* Contenedor de los enlaces */
 .nav-links {
     display: flex;
     list-style: none;
     padding: 0;
     margin: 0;
+    flex-grow: 1;
+    /* Asegura que el contenedor de los enlaces ocupe el espacio restante */
     justify-content: center;
-    /* Alinea los enlaces en el centro */
+    /* Centra los enlaces horizontalmente */
+    gap: 20px;
+    /* Espacio entre los enlaces */
 }
 
-
+/* Estilo de cada elemento de la lista */
 .nav-links li {
-    margin: 0 15px;
-    margin-bottom: 20px;    
+    display: inline-block;
 }
 
-
+/* Estilo de los enlaces */
 nav a {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    transition: transform 0.3s ease, color 0.3s ease;
+    /* Transición suave */
+    display: inline-block;
+    /* Cambiar el display a inline-block */
+    padding: 10px;
+    /* Agregar algo de padding para que sea más visible el cambio */
 }
 
-
+/* Estilo para el hover de los enlaces */
 nav a:hover {
-    text-decoration: underline;
+    color: burlywood;
+    transform: scale(1.2);
+    /* Aumenta el tamaño del enlace */
+    cursor: pointer;
+    /* Cambia el cursor a la mano */
 }
 
-
+/* Contenido principal de la página */
 main {
     max-width: 100%;
     background-color: white;
