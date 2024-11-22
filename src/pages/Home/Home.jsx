@@ -4,8 +4,8 @@ import { Parallax } from "react-parallax";
 import "./Home.css";
 import imgcomedor2 from "../../assets/imgcomedor2.jpg";
 import Mapa from "../../components/Mapa";
-import chuletonImg from "../../assets/chuleton.jpg"; // Imagen para la primera sección
-import kamadoImg from "../../assets/kamado.jpg"; // Imagen para la sección del kamado
+import chuletonImg from "../../assets/chuleton.jpg";
+import kamadoImg from "../../assets/kamado.jpg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -20,13 +20,10 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <div className="image-container">
-        <p>
-          Ven y descubre la esencia de nuestra cocina en Mandarina. ¡Te
-          esperamos!
-        </p>
+      <div className="home-image-container">
+        <p>RESTAURANTE MASIA MANDARINA</p>
       </div>
-      <p className="img-footer">Restaurante Masía - Barcelona</p>
+      <p className="home-img-footer">Restaurante Masía - Barcelona</p>
       <div className="row-img-left">
         <img src={imgcomedor2} alt="Comedor de Mandarina" />
         <div className="col-right">
