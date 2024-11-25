@@ -40,13 +40,16 @@ nav {
 
 /* Hover en el logo */
 .logo:hover {
-    filter: brightness(1.2) sepia(1) saturate(2) hue-rotate(25deg);
-    /* Cambia el color al tono burlywood */
+    filter: sepia(2) saturate(2) brightness(1.2) hue-rotate(20deg);
+    /* Aumentar el sepia para un tono más cálido */
     transform: scale(1.1);
     /* Añade un pequeño efecto de zoom */
     cursor: pointer;
     /* Cambia el cursor al símbolo de una mano */
 }
+
+
+
 
 /* Contenedor de los enlaces */
 .nav-links {

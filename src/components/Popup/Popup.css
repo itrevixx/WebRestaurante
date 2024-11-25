@@ -1,0 +1,96 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-container {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Popup success style */
+.popup-container.success {
+  border: 2px solid #28a745; /* Borde verde para éxito */
+  background-color: #99a895; /* Fondo verde tenue */
+}
+
+/* Popup error style */
+.popup-container.error {
+  border: 2px solid #dc3545; /* Borde rojo para error */
+  background-color: #dabdbf; /* Fondo rojo tenue */
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.popup-content {
+  margin-top: 10px;
+}
+
+.popup-footer {
+  margin-top: 20px;
+  text-align: center; /* Centra el texto y el botón */
+}
+
+.popup-footer button {
+  background-color: #1f1d1d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 auto; /* Asegura que el botón se centre */
+  display: block; /* Necesario para que margin auto funcione */
+  transition: background-color 0.3s ease; /* Añadir transición suave al hover */
+}
+
+.popup-footer button:hover {
+  background-color: black; /* Cambia el color del fondo cuando se pasa el cursor */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

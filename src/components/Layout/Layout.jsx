@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Layout.css";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 // eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
