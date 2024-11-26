@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Mapa from "../../components/Mapa";
 import Popup from "../../components/Popup/Popup";
 import "./Contact.css";
@@ -12,7 +12,12 @@ const Contact = () => {
     privacy: false,
   });
 
-  const [popup, setPopup] = useState({ show: false, message: "", title: "", type: "" });
+  const [popup, setPopup] = useState({
+    show: false,
+    message: "",
+    title: "",
+    type: "",
+  });
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,15 +32,15 @@ const Contact = () => {
     const emailField = e.target;
     const emailValue = emailField.value.trim(); // Asegurarse de que no tenga espacios en blanco
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  
+
     // Validar si el campo está vacío
     if (!emailValue) {
       emailField.setCustomValidity("Introduce un email");
-    } 
+    }
     // Validar formato del email
     else if (!emailRegex.test(emailValue)) {
       emailField.setCustomValidity("Introduce un email válido");
-    } 
+    }
     // Si es válido, limpiar cualquier mensaje de error
     else {
       emailField.setCustomValidity("");
@@ -44,7 +49,10 @@ const Contact = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const object = { ...formData, access_key: "8d2de2e0-9221-4c06-9cda-10d6bbc9fd3c" };
+    const object = {
+      ...formData,
+      access_key: "8d2de2e0-9221-4c06-9cda-10d6bbc9fd3c",
+    };
     const json = JSON.stringify(object);
 
     try {
@@ -89,7 +97,7 @@ const Contact = () => {
         <Popup
           message={popup.message}
           onClose={handleClosePopup}
-          title={popup.title}  // Aquí se pasa el título personalizado
+          title={popup.title} // Aquí se pasa el título personalizado
           type={popup.type}
         />
       )}
@@ -101,7 +109,7 @@ const Contact = () => {
         <h2>Rellena nuestro formulario o llámanos</h2>
         <h3>Whatsapp: (+34) 652-864-950</h3>
         <form onSubmit={onSubmit}>
-        <input
+          <input
             type="text"
             name="name"
             placeholder="Nombre"
@@ -109,9 +117,11 @@ const Contact = () => {
             value={formData.name}
             onChange={handleInputChange}
             onInput={(e) => e.target.setCustomValidity("")} // Resetea cualquier mensaje de error anterior
-            onInvalid={(e) => e.target.setCustomValidity("El nombre es obligatorio")}
+            onInvalid={(e) =>
+              e.target.setCustomValidity("El nombre es obligatorio")
+            }
             required
-        />
+          />
 
           <input
             type="email"
@@ -120,9 +130,9 @@ const Contact = () => {
             className="form-input"
             value={formData.email}
             onChange={handleInputChange}
-            onInput={(e) => validateEmail(e)} // Valida en cada cambio de entrada
+            onInput={(e) => validateEmail(e)} // Valida en cada cambio de entrada.
             onInvalid={(e) => {
-              validateEmail(e);   // Validar y establecer mensaje personalizado
+              validateEmail(e); // Validar y establecer mensaje personalizado
             }}
             required // Esto asegura que el navegador considere el campo obligatorio
           />
@@ -134,7 +144,9 @@ const Contact = () => {
             value={formData.message}
             onChange={handleInputChange}
             onInput={(e) => e.target.setCustomValidity("")} // Resetea cualquier mensaje de error anterior
-            onInvalid={(e) => e.target.setCustomValidity("Introduce un mensaje")}
+            onInvalid={(e) =>
+              e.target.setCustomValidity("Introduce un mensaje")
+            }
             required
           ></textarea>
           <div className="form-checkbox-container">
@@ -145,6 +157,11 @@ const Contact = () => {
               className="form-checkbox"
               checked={formData.privacy}
               onChange={handleInputChange}
+              onInvalid={(e) =>
+                e.target.setCustomValidity(
+                  "Debes aceptar nuestra política de privacidad"
+                )
+              }
               required
             />
             <label htmlFor="privacy">
