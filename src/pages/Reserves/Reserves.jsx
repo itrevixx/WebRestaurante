@@ -4,17 +4,18 @@ import { createReserve } from "../../app/services/api/reserves";
 import "./Reserves.css";
 import CalendarComp from "../../components/CalendarComp/CalendarComp";
 import { isToday, isAfter, addMinutes, set } from "date-fns";
-import { useNavigate } from "react-router-dom";
 import Popup from "../../components/Popup/Popup";
 
 const Reserves = () => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState("");
-  const [adultsCounter, setAdultsCounter] = useState(0);
-  const [kidsCounter, setKidsCounter] = useState(0);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    date: "",
+    time: "",
+    adultsCounter: 0,
+    kidsCounter: 0,
+  });
   const [filteredTimes, setFilteredTimes] = useState([]);
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState("");
@@ -36,10 +37,14 @@ const Reserves = () => {
   useEffect(() => {
     const filterTimes = () => {
       const now = new Date();
-      if (isToday(date)) {
+      const selectedDate = formData.date; // Usa formData.date
+      if (isToday(selectedDate)) {
         const validTimes = times.filter((time) => {
           const [hour, minute] = time.split(":").map(Number);
-          const selectedDateTime = set(date, { hours: hour, minutes: minute });
+          const selectedDateTime = set(selectedDate, {
+            hours: hour,
+            minutes: minute,
+          });
           return isAfter(selectedDateTime, addMinutes(now, 30));
         });
         setFilteredTimes(validTimes);
@@ -48,7 +53,8 @@ const Reserves = () => {
       }
     };
     filterTimes();
-  }, [date]);
+  }, [formData.date]);
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -56,112 +62,94 @@ const Reserves = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+
   const validatePhone = (e) => {
     const phoneField = e.target;
     const phoneRegex = /^\d{9}$/; // Solo permite exactamente 9 dígitos
 
-    // Validación de campo requerido
-    if (phoneField.validity.valueMissing) {
+    if (!phoneField.value.trim()) {
       phoneField.setCustomValidity("Es necesario introducir un teléfono");
+    } else if (!phoneRegex.test(phoneField.value)) {
+      phoneField.setCustomValidity("Introduce un teléfono válido de 9 dígitos");
+    } else {
+      phoneField.setCustomValidity("");
     }
-    // Validación de campo requerido y formato de teléfono
-    phoneField.setCustomValidity(
-      phoneRegex.test(phoneField.value)
-        ? "" // Número válido, sin mensaje de error
-        : "Introduce un teléfono válido de 9 dígitos"
-    );
   };
 
   const validateEmail = (e) => {
     const emailField = e.target;
     const emailValue = emailField.value.trim(); // Asegurarse de que no tenga espacios en blanco
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  
-    // Validar si el campo está vacío
+
     if (!emailValue) {
       emailField.setCustomValidity("Introduce un email");
-    } 
-    // Validar formato del email
-    else if (!emailRegex.test(emailValue)) {
+    } else if (!emailRegex.test(emailValue)) {
       emailField.setCustomValidity("Introduce un email válido");
-    } 
-    // Si es válido, limpiar cualquier mensaje de error
-    else {
+    } else {
       emailField.setCustomValidity("");
     }
   };
 
-  // const validateDate = (e) => {
-  //   const dateField = e.target;
-  //   if (!dateField.value) {
-  //     dateField.setCustomValidity("La fecha es obligatoria.");
-  //     console.log("La fecha es obligatoria.");
-  //   } else {
-  //     dateField.setCustomValidity(""); // Resetea el mensaje de error
-  //   }
-  // };
-
-  // const validateHour = (e) => {
-  //   const hourField = e.target;
-  //   if (!hourField.value) {
-  //     hourField.setCustomValidity("La hora es obligatoria.");
-  //     console.log("La hora es obligatoria.");
-  //   } else {
-  //     hourField.setCustomValidity(""); // Resetea el mensaje de error
-  //   }
-  // };
-
-  // const validatePerson = () => {
-  //   if (adultsCounter === 0 && kidsCounter === 0) {
-  //     adultField.setCustomValidity("Por favor, selecciona al menos un adulto o un niño.");
-  //     console.log("Por favor, selecciona al menos un adulto o un niño.");
-
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Previene el comportamiento por defecto del formulario (recarga de página)
-    // Crear cliente
-    const createdClient = await createClient({
-      name: name,
-      phone: phone,
-      email: email,
-    });
-
-    const clientId = createdClient.data.id;
-
+    e.preventDefault();
+  
+    // Obtener el elemento de la fecha
+    const dateInput = document.getElementById("date-input");
+  
+    if (dateInput) {
+      // Validar si la fecha está seleccionada
+      if (!formData.date) {
+        dateInput.setCustomValidity("Por favor, selecciona una fecha.");
+        dateInput.reportValidity(); // Esto muestra el mensaje de error
+        return; // No continúa con la reserva si no hay fecha seleccionada
+      } else {
+        dateInput.setCustomValidity(""); // Resetea el mensaje de error si la fecha es válida
+      }
+    } else {
+      // Asegurarse de que el campo de fecha está disponible
+      console.error("El campo de fecha no fue encontrado");
+    }
+  
     try {
+      // Crear cliente
+      const createdClient = await createClient({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+      });
+  
+      const clientId = createdClient.data.id;
+  
       // Crear reserva
       await createReserve({
-        reservationDate: date,
-        reservationTime: time,
-        adults: adultsCounter,
-        children: kidsCounter,
+        reservationDate: formData.date,
+        reservationTime: formData.time,
+        adults: formData.adultsCounter,
+        children: formData.kidsCounter,
         user: { id: clientId },
       });
-
+  
       // Limpiar formulario
-      setName("");
-      setPhone("");
-      setDate(new Date());
-      setTime("");
-      setEmail("");
-      setAdultsCounter(0);
-      setKidsCounter(0);
-
-      // Mostrar mensaje de éxito
-      setPopupMessage("Reserva realizada con éxito.");
-      setPopupType("success");
-      setShowPopup(true);
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        date: null,
+        time: "",
+        adultsCounter: 0,
+        kidsCounter: 0,
+      });
     } catch (error) {
-      // Manejar errores de red o al hacer la reserva
-      setPopupMessage(error.message.includes("Network Error") ? "Hubo un error de red. Intenta nuevamente." : "Hubo un error al hacer la reserva. Intenta nuevamente.");
+      const errorMessage = error.message.includes("Network Error")
+        ? "Hubo un error de red. Intenta nuevamente."
+        : "Hubo un error al procesar la reserva. Intenta nuevamente.";
+  
+      setPopupMessage(errorMessage);
       setPopupType("error");
       setShowPopup(true);
     }
   };
+  
 
   return (
     <div className="reserve-container">
@@ -169,26 +157,76 @@ const Reserves = () => {
         <h2>Reserva una Mesa</h2>
         <h3>Adultos</h3>
         <div className="counter-group">
-          <button type="button" onClick={() => setAdultsCounter(Math.max(0, adultsCounter - 1))}>-</button>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prev) => ({
+                ...prev,
+                adultsCounter: Math.max(0, prev.adultsCounter - 1),
+              }))
+            }
+          >
+            -
+          </button>
           <input
             type="number"
-            className="adults"
-            value={adultsCounter}
-            onChange={(e) => setAdultsCounter(Number(e.target.value))}
+            className="adultsCounter"
+            value={formData.adultsCounter}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                adultsCounter: Number(e.target.value),
+              }))
+            }
           />
-          <button type="button" onClick={() => setAdultsCounter(adultsCounter + 1)}>+</button>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prev) => ({
+                ...prev,
+                adultsCounter: prev.adultsCounter + 1,
+              }))
+            }
+          >
+            +
+          </button>
         </div>
 
         <h3>Niños</h3>
         <div className="counter-group">
-          <button type="button" onClick={() => setKidsCounter(Math.max(0, kidsCounter - 1))}>-</button>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prev) => ({
+                ...prev,
+                kidsCounter: Math.max(0, prev.kidsCounter - 1),
+              }))
+            }
+          >
+            -
+          </button>
           <input
             type="number"
-            className="kids"
-            value={kidsCounter}
-            onChange={(e) => setKidsCounter(Number(e.target.value))}
+            className="kidsCounter"
+            value={formData.kidsCounter}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                kidsCounter: Number(e.target.value),
+              }))
+            }
           />
-          <button type="button" onClick={() => setKidsCounter(kidsCounter + 1)}>+</button>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prev) => ({
+                ...prev,
+                kidsCounter: prev.kidsCounter + 1,
+              }))
+            }
+          >
+            +
+          </button>
         </div>
 
         <input
@@ -197,10 +235,12 @@ const Reserves = () => {
           id="name"
           className="input-field"
           placeholder="Nombre"
-          value={name}
-          onChange={(e) => setName(e.target.value)} // Actualiza el estado con el valor del input
-          onInput={(e) => e.target.setCustomValidity("")} // Limpia el mensaje de error cuando el usuario empieza a escribir
-          onInvalid={(e) => e.target.setCustomValidity("El nombre es obligatorio")} // Muestra un mensaje si el campo está vacío
+          value={formData.name}
+          onChange={handleInputChange}
+          onInput={(e) => e.target.setCustomValidity("")}
+          onInvalid={(e) =>
+            e.target.setCustomValidity("El nombre es obligatorio")
+          }
           required
         />
 
@@ -211,42 +251,54 @@ const Reserves = () => {
           className="input-field"
           placeholder="Teléfono"
           maxLength={9}
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          onInput={validatePhone} 
+          value={formData.phone}
+          onChange={handleInputChange}
+          onInput={validatePhone}
+          onInvalid={validatePhone}
           required
         />
+
         <input
           type="email"
           name="email"
           id="email"
           className="input-field"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onInput={validateEmail} 
+          value={formData.email}
+          onChange={handleInputChange}
+          onInput={validateEmail}
+          onInvalid={validateEmail}
           required
         />
-        <CalendarComp date={date} setDate={setDate} />
+        <CalendarComp
+          date={formData.date}
+          setDate={(date) => setFormData((prev) => ({ ...prev, date }))}
+          onChange={handleInputChange}
+          // onInput={validateEmail}
+          // onInvalid={validateEmail}
+          required
+        />
+
         <select
           className="select-field"
-          value={time}
-          id="day"
-          onChange={(e) => setTime(e.target.value)}
-          // onInput={validateDate}
+          value={formData.time}
+          name="time"
+          onChange={handleInputChange}
+          onInput={(e) => e.target.setCustomValidity("")}
+          onInvalid={(e) =>
+            e.target.setCustomValidity("Selecciona la hora de la reserva")
+          }
+          required
         >
           <option value="">Selecciona una hora</option>
-          {filteredTimes.map((availableTime) => (
-            <option key={availableTime} value={availableTime}  id="time" >
-              {availableTime}
+          {filteredTimes.map((time, index) => (
+            <option key={index} value={time} id="time">
+              {time}
             </option>
           ))}
         </select>
-        <button
-          type="submit"
-          className="reserve-button"
-          disabled={!time || !date || !(adultsCounter > 0 || kidsCounter > 0)} // Deshabilitar botón si no hay datos válidos
-        >
+
+        <button type="submit" className="reserve-button">
           Reservar
         </button>
       </form>
@@ -255,7 +307,7 @@ const Reserves = () => {
         <Popup
           message={popupMessage}
           type={popupType}
-          onClose={() => setShowPopup(false)} // Cerrar popup
+          onClose={() => setShowPopup(false)}
         />
       )}
     </div>
