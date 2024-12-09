@@ -3,7 +3,7 @@ import { createClient } from "../../app/services/api/clients";
 import { createReserve } from "../../app/services/api/reserves";
 import "./Reserves.css";
 import CalendarComp from "../../components/CalendarComp";
-import { isToday, isAfter, addMinutes, set } from "date-fns";
+import { isToday, isAfter, addMinutes, set, format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 const Reserves = () => {
@@ -32,22 +32,14 @@ const Reserves = () => {
 
   useEffect(() => {
     const filterTimes = () => {
-      const now = new Date(); // Obtenemos la fecha y hora actual
-      // Si la fecha seleccionada en el calendario es el día de hoy:
+      const now = new Date();
       if (isToday(date)) {
-        // Filtramos las horas disponibles para mostrar solo las que sean mayores a la hora actual + 30 minutos
         const validTimes = times.filter((time) => {
-          // Usamos el método split para separar la hora y los minutos de cada elemento en el array 'times' (ejemplo: "13:30" se convierte en [13, 30])
           const [hour, minute] = time.split(":").map(Number);
-          // Usamos 'set' para crear una nueva fecha con la hora y minutos seleccionados, pero manteniendo la misma fecha que se eligió en el calendario
           const selectedDateTime = set(date, { hours: hour, minutes: minute });
-          // Comprobamos si la fecha y hora seleccionada es después de la hora actual + 30 minutos
-          // Si es así, agregamos esa hora a la lista de horas válidas
           return isAfter(selectedDateTime, addMinutes(now, 30));
         });
-        // Guardamos en el estado las horas que cumplen con el filtro
         setFilteredTimes(validTimes);
-        // Si la fecha seleccionada es un día futuro (no hoy), mostramos todas las horas disponibles
       } else {
         setFilteredTimes(times);
       }
@@ -68,71 +60,51 @@ const Reserves = () => {
       return;
     }
 
-    // Verificar si el email contiene '@'
     if (!email.includes("@")) {
       alert("Introduce un email válido.");
       return;
     }
 
-    const createdClient = await createClient({
-      name: name,
-      phone: phone,
-      email: email,
-    });
-
-    const clientId = createdClient.data.id;
-
     try {
+      const formattedDate = format(date, "dd-MM-yyyy");
+      const createdClient = await createClient({
+        name,
+        phone,
+        email,
+      });
+
+      const clientId = createdClient.data.id;
+
       await createReserve({
-        reservationDate: date,
+        reservationDate: formattedDate,
         reservationTime: time,
         adults: adultsCounter,
         children: kidsCounter,
         user: { id: clientId },
       });
 
+      // Resetear formulario
       setName("");
       setPhone("");
+      setEmail("");
       setDate(new Date());
       setTime("");
-      setEmail("");
       setAdultsCounter(0);
       setKidsCounter(0);
 
-      alert("Reserva hecha!");
+      alert("¡Reserva realizada con éxito!");
       navigate("/");
     } catch (error) {
-      console.error("Error creating reservation:", error);
+      console.error("Error al crear la reserva:", error.message);
+      alert("Hubo un problema al realizar la reserva.");
     }
   };
 
-  // Incrementa el contador de adultos en 1
-  const incrementAdults = () => {
-    setAdultsCounter((previousValue) => {
-      return previousValue + 1;
-    });
-  };
-
-  // Incrementa el contador de niños en 1.
-  const incrementKids = () => {
-    setKidsCounter((previousValue) => {
-      return previousValue + 1;
-    });
-  };
-
-  // Disminuye el contador de adultos en 1, pero no baja de 0.
-  const decrementAdults = () => {
-    setAdultsCounter((previousValue) => {
-      return Math.max(0, previousValue - 1);
-    });
-  };
-
-  // Disminuye el contador de niños en 1, pero no baja de 0.
-  const decrementKids = () => {
-    setKidsCounter((previousValue) => {
-      return Math.max(0, previousValue - 1);
-    });
-  };
+  const incrementAdults = () => setAdultsCounter((prev) => prev + 1);
+  const incrementKids = () => setKidsCounter((prev) => prev + 1);
+  const decrementAdults = () =>
+    setAdultsCounter((prev) => Math.max(0, prev - 1));
+  const decrementKids = () => setKidsCounter((prev) => Math.max(0, prev - 1));
 
   return (
     <div className="reserve-container">
@@ -151,7 +123,6 @@ const Reserves = () => {
           />
           <button onClick={incrementAdults}>+</button>
         </div>
-
         <h3>Niños</h3>
         <div className="counter-group">
           <button onClick={decrementKids} disabled={kidsCounter === 0}>

@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteReservation } from "../../app/services/api/reserves";
 import "./Cancelation.css";
