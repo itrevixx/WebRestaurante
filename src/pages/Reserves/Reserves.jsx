@@ -191,7 +191,6 @@ const Reserves = () => {
             +
           </button>
         </div>
-
         <h3>Niños</h3>
         <div className="counter-group">
           <button

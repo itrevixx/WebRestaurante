@@ -1,0 +1,17 @@
+.panel-container {
+    display: flex;
+    background-color: gray;
+}
+.panel-container ul {
+    display: flex;
+    gap: 100px;
+    padding: 100px;
+    list-style: none;
+    
+    
+}
+
+.panel-container li {
+    background-color: white;
+    padding: 20px;
+}
