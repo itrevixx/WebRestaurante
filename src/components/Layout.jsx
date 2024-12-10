@@ -3,14 +3,15 @@ import "./Layout.css";
 import logo from "../assets/logo.png";
 import { useEffect, useState } from "react";
 import { logout } from "../app/services/api/logout";
+import { FaUserAlt } from "react-icons/fa";
 
 // eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
   const [admin, setAdmin] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Función para actualizar el estado con el username desde localStorage
     const fetchAdmin = () => {
       const storedAdmin = localStorage.getItem("username");
       const storedAdminUpperCase = storedAdmin
@@ -29,29 +30,30 @@ const Layout = ({ children }) => {
       fetchAdmin();
     }, 100);
 
-    // Limpiar el intervalo cuando el componente se desmonte
     return () => clearInterval(intervalId);
-  }, []); // Solo se ejecuta una vez al montar el componente
+  }, []);
 
-  // Función para manejar el logout
   const handleLogout = async () => {
     try {
-      await logout(); // Realiza la solicitud de logout
-      localStorage.removeItem("username"); // Elimina el username de localStorage
-      setAdmin(""); // Actualiza el estado para reflejar el logout
-      navigate("/"); // Redirige al login después del logout
+      await logout();
+      localStorage.removeItem("username");
+      setAdmin("");
+      navigate("/");
     } catch (error) {
       console.error("Error al hacer logout", error);
-      if (error.response) {
-        console.error("Respuesta del servidor:", error.response);
-      } else {
-        console.error("Error inesperado:", error.message);
-      }
     }
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev); // Alterna el estado del dropdown
+  };
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+
   return (
-    <div>
+    <div onClick={closeDropdown}>
       <nav>
         <div className="logo-container">
           <Link to="/">
@@ -74,17 +76,34 @@ const Layout = ({ children }) => {
           <li>
             <Link to="/contact">CONTACTO</Link>
           </li>
-          {admin && ( // Solo mostrar el enlace si el usuario está autenticado
-            <li>
-              <Link to="/panel">PANEL CONTROL</Link>
+          {admin && (
+            <li className="dropdown">
+              <span
+                className="dropdown-toggle"
+                onClick={(e) => {
+                  e.stopPropagation(); // Evita que el evento cierre el dropdown
+                  toggleDropdown();
+                }}
+              >
+                {admin}
+              </span>
+              {isDropdownOpen && (
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link to="/panel">PANEL</Link>
+                  </li>
+                  <li>
+                    <Link onClick={handleLogout}>LOGOUT</Link>
+                  </li>
+                </ul>
+              )}
             </li>
           )}
-          <li>
-            <a href="#">{admin}</a>
-          </li>
-          {admin && (
+          {!admin && (
             <li>
-              <button onClick={handleLogout}>LOGOUT</button>
+              <Link to="/login">
+                <FaUserAlt />
+              </Link>
             </li>
           )}
         </ul>
