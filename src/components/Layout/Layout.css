@@ -40,13 +40,16 @@ nav {
 
 /* Hover en el logo */
 .logo:hover {
-    filter: brightness(1.2) sepia(1) saturate(2) hue-rotate(25deg);
-    /* Cambia el color al tono burlywood */
+    filter: sepia(2) saturate(2) brightness(1.2) hue-rotate(20deg);
+    /* Aumentar el sepia para un tono más cálido */
     transform: scale(1.1);
     /* Añade un pequeño efecto de zoom */
     cursor: pointer;
     /* Cambia el cursor al símbolo de una mano */
 }
+
+
+
 
 /* Contenedor de los enlaces */
 .nav-links {
@@ -60,6 +63,7 @@ nav {
     /* Centra los enlaces horizontalmente */
     gap: 20px;
     /* Espacio entre los enlaces */
+    align-items: center;
 }
 
 /* Estilo de cada elemento de la lista */
@@ -94,4 +98,43 @@ main {
     max-width: 100%;
     background-color: white;
     margin: 0 auto;
+}
+
+/* Estilo general del dropdown */
+.dropdown {
+    position: relative;
+    cursor: pointer;
+    
+}
+
+.dropdown-toggle {
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s;
+    padding: 10px;
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+    position: absolute;
+    top: 30px;
+    left: -17px;
+    background-color: rgb(24, 24, 24);
+    border-radius: 10px;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+}
+
+/* Estilo de los elementos del dropdown */
+.dropdown-menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+
+/* Ocultar el menú si no está activo */
+.dropdown-menu.hidden {
+    display: none;
 }

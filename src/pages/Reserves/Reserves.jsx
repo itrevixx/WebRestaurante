@@ -2,20 +2,24 @@ import { useEffect, useState } from "react";
 import { createClient } from "../../app/services/api/clients";
 import { createReserve } from "../../app/services/api/reserves";
 import "./Reserves.css";
-import CalendarComp from "../../components/CalendarComp";
+import CalendarComp from "../../components/CalendarComp/CalendarComp";
 import { isToday, isAfter, addMinutes, set } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import Popup from "../../components/Popup/Popup";
 
 const Reserves = () => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState("");
-  const [adultsCounter, setAdultsCounter] = useState(0);
-  const [kidsCounter, setKidsCounter] = useState(0);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    date: "",
+    time: "",
+    adultsCounter: 0,
+    kidsCounter: 0,
+  });
   const [filteredTimes, setFilteredTimes] = useState([]);
-  const navigate = useNavigate();
+  const [popupMessage, setPopupMessage] = useState("");
+  const [popupType, setPopupType] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   const times = [
     "13:30",
@@ -32,177 +36,279 @@ const Reserves = () => {
 
   useEffect(() => {
     const filterTimes = () => {
-      const now = new Date(); // Obtenemos la fecha y hora actual
-      // Si la fecha seleccionada en el calendario es el día de hoy:
-      if (isToday(date)) {
-        // Filtramos las horas disponibles para mostrar solo las que sean mayores a la hora actual + 30 minutos
+      const now = new Date();
+      const selectedDate = formData.date; // Usa formData.date
+      if (isToday(selectedDate)) {
         const validTimes = times.filter((time) => {
-          // Usamos el método split para separar la hora y los minutos de cada elemento en el array 'times' (ejemplo: "13:30" se convierte en [13, 30])
           const [hour, minute] = time.split(":").map(Number);
-          // Usamos 'set' para crear una nueva fecha con la hora y minutos seleccionados, pero manteniendo la misma fecha que se eligió en el calendario
-          const selectedDateTime = set(date, { hours: hour, minutes: minute });
-          // Comprobamos si la fecha y hora seleccionada es después de la hora actual + 30 minutos
-          // Si es así, agregamos esa hora a la lista de horas válidas
+          const selectedDateTime = set(selectedDate, {
+            hours: hour,
+            minutes: minute,
+          });
           return isAfter(selectedDateTime, addMinutes(now, 30));
         });
-        // Guardamos en el estado las horas que cumplen con el filtro
         setFilteredTimes(validTimes);
-        // Si la fecha seleccionada es un día futuro (no hoy), mostramos todas las horas disponibles
       } else {
         setFilteredTimes(times);
       }
     };
     filterTimes();
-  }, [date]);
+  }, [formData.date]);
 
-  const handleClick = async () => {
-    if (
-      !name ||
-      !phone ||
-      !email ||
-      (!kidsCounter && !adultsCounter) ||
-      !time ||
-      !date
-    ) {
-      alert("Por favor, completa todos los campos.");
-      return;
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const validatePhone = (e) => {
+    const phoneField = e.target;
+    const phoneRegex = /^\d{9}$/; // Solo permite exactamente 9 dígitos
+
+    if (!phoneField.value.trim()) {
+      phoneField.setCustomValidity("Es necesario introducir un teléfono");
+    } else if (!phoneRegex.test(phoneField.value)) {
+      phoneField.setCustomValidity("Introduce un teléfono válido de 9 dígitos");
+    } else {
+      phoneField.setCustomValidity("");
     }
+  };
 
-    // Verificar si el email contiene '@'
-    if (!email.includes("@")) {
-      alert("Introduce un email válido.");
-      return;
+  const validateEmail = (e) => {
+    const emailField = e.target;
+    const emailValue = emailField.value.trim(); // Asegurarse de que no tenga espacios en blanco
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailValue) {
+      emailField.setCustomValidity("Introduce un email");
+    } else if (!emailRegex.test(emailValue)) {
+      emailField.setCustomValidity("Introduce un email válido");
+    } else {
+      emailField.setCustomValidity("");
     }
+  };
 
-    const createdClient = await createClient({
-      name: name,
-      phone: phone,
-      email: email,
-    });
-
-    const clientId = createdClient.data.id;
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Obtener el elemento de la fecha
+    const dateInput = document.getElementById("date-input");
+  
+    if (dateInput) {
+      // Validar si la fecha está seleccionada
+      if (!formData.date) {
+        dateInput.setCustomValidity("Por favor, selecciona una fecha.");
+        dateInput.reportValidity(); // Esto muestra el mensaje de error
+        return; // No continúa con la reserva si no hay fecha seleccionada
+      } else {
+        dateInput.setCustomValidity(""); // Resetea el mensaje de error si la fecha es válida
+      }
+    } else {
+      // Asegurarse de que el campo de fecha está disponible
+      console.error("El campo de fecha no fue encontrado");
+    }
+  
     try {
+      // Crear cliente
+      const createdClient = await createClient({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+      });
+  
+      const clientId = createdClient.data.id;
+  
+      // Crear reserva
       await createReserve({
-        reservationDate: date,
-        reservationTime: time,
-        adults: adultsCounter,
-        children: kidsCounter,
+        reservationDate: formData.date,
+        reservationTime: formData.time,
+        adults: formData.adultsCounter,
+        children: formData.kidsCounter,
         user: { id: clientId },
       });
-
-      setName("");
-      setPhone("");
-      setDate(new Date());
-      setTime("");
-      setEmail("");
-      setAdultsCounter(0);
-      setKidsCounter(0);
-
-      alert("Reserva hecha!");
-      navigate("/");
+  
+      // Limpiar formulario
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        date: null,
+        time: "",
+        adultsCounter: 0,
+        kidsCounter: 0,
+      });
     } catch (error) {
-      console.error("Error creating reservation:", error);
+      const errorMessage = error.message.includes("Network Error")
+        ? "Hubo un error de red. Intenta nuevamente."
+        : "Hubo un error al procesar la reserva. Intenta nuevamente.";
+  
+      setPopupMessage(errorMessage);
+      setPopupType("error");
+      setShowPopup(true);
     }
   };
-
-  // Incrementa el contador de adultos en 1
-  const incrementAdults = () => {
-    setAdultsCounter((previousValue) => {
-      return previousValue + 1;
-    });
-  };
-
-  // Incrementa el contador de niños en 1.
-  const incrementKids = () => {
-    setKidsCounter((previousValue) => {
-      return previousValue + 1;
-    });
-  };
-
-  // Disminuye el contador de adultos en 1, pero no baja de 0.
-  const decrementAdults = () => {
-    setAdultsCounter((previousValue) => {
-      return Math.max(0, previousValue - 1);
-    });
-  };
-
-  // Disminuye el contador de niños en 1, pero no baja de 0.
-  const decrementKids = () => {
-    setKidsCounter((previousValue) => {
-      return Math.max(0, previousValue - 1);
-    });
-  };
+  
 
   return (
     <div className="reserve-container">
-      <div className="reserve-form">
+      <form className="reserve-form" onSubmit={handleSubmit}>
         <h2>Reserva una Mesa</h2>
         <h3>Adultos</h3>
         <div className="counter-group">
-          <button onClick={decrementAdults} disabled={adultsCounter === 0}>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prev) => ({
+                ...prev,
+                adultsCounter: Math.max(0, prev.adultsCounter - 1),
+              }))
+            }
+          >
             -
           </button>
           <input
             type="number"
-            className="adults"
-            value={adultsCounter}
-            onChange={(e) => setAdultsCounter(Number(e.target.value))}
+            className="adultsCounter"
+            value={formData.adultsCounter}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                adultsCounter: Number(e.target.value),
+              }))
+            }
           />
-          <button onClick={incrementAdults}>+</button>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prev) => ({
+                ...prev,
+                adultsCounter: prev.adultsCounter + 1,
+              }))
+            }
+          >
+            +
+          </button>
         </div>
-
         <h3>Niños</h3>
         <div className="counter-group">
-          <button onClick={decrementKids} disabled={kidsCounter === 0}>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prev) => ({
+                ...prev,
+                kidsCounter: Math.max(0, prev.kidsCounter - 1),
+              }))
+            }
+          >
             -
           </button>
           <input
             type="number"
-            className="kids"
-            value={kidsCounter}
-            onChange={(e) => setKidsCounter(Number(e.target.value))}
+            className="kidsCounter"
+            value={formData.kidsCounter}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                kidsCounter: Number(e.target.value),
+              }))
+            }
           />
-          <button onClick={incrementKids}>+</button>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prev) => ({
+                ...prev,
+                kidsCounter: prev.kidsCounter + 1,
+              }))
+            }
+          >
+            +
+          </button>
         </div>
+
         <input
           type="text"
+          name="name"
+          id="name"
           className="input-field"
           placeholder="Nombre"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData.name}
+          onChange={handleInputChange}
+          onInput={(e) => e.target.setCustomValidity("")}
+          onInvalid={(e) =>
+            e.target.setCustomValidity("El nombre es obligatorio")
+          }
+          required
         />
+
         <input
-          type="text"
+          type="tel"
+          name="phone"
+          id="phone"
           className="input-field"
           placeholder="Teléfono"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          maxLength={9}
+          value={formData.phone}
+          onChange={handleInputChange}
+          onInput={validatePhone}
+          onInvalid={validatePhone}
+          required
         />
+
         <input
-          type="text"
+          type="email"
+          name="email"
+          id="email"
           className="input-field"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleInputChange}
+          onInput={validateEmail}
+          onInvalid={validateEmail}
+          required
         />
-        <CalendarComp date={date} setDate={setDate} />
+        <CalendarComp
+          date={formData.date}
+          setDate={(date) => setFormData((prev) => ({ ...prev, date }))}
+          onChange={handleInputChange}
+          // onInput={validateEmail}
+          // onInvalid={validateEmail}
+          required
+        />
+
         <select
           className="select-field"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
+          value={formData.time}
+          name="time"
+          onChange={handleInputChange}
+          onInput={(e) => e.target.setCustomValidity("")}
+          onInvalid={(e) =>
+            e.target.setCustomValidity("Selecciona la hora de la reserva")
+          }
+          required
         >
           <option value="">Selecciona una hora</option>
-          {filteredTimes.map((availableTime) => (
-            <option key={availableTime} value={availableTime}>
-              {availableTime}
+          {filteredTimes.map((time, index) => (
+            <option key={index} value={time} id="time">
+              {time}
             </option>
           ))}
         </select>
-        <button className="reserve-button" onClick={handleClick}>
+
+        <button type="submit" className="reserve-button">
           Reservar
         </button>
-      </div>
+      </form>
+
+      {showPopup && (
+        <Popup
+          message={popupMessage}
+          type={popupType}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
     </div>
   );
 };
