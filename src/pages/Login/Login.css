@@ -1,3 +1,22 @@
+body {
+    background-color: rgb(47, 46, 46);
+}
+
 .login{
     padding-top: 200px;
+    background-color: rgb(47, 46, 46);
+    display: flex;
+    width: 100vw;
+    margin: auto;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login input{
+    width: 10%;
+}
+
+.login button {
+    width: 5%;
 }
