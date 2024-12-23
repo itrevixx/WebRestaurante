@@ -3,8 +3,13 @@ import { createClient } from "../../app/services/api/clients";
 import { createReserve } from "../../app/services/api/reserves";
 import "./Reserves.css";
 import CalendarComp from "../../components/CalendarComp/CalendarComp";
-import { isToday, isAfter, addMinutes, set } from "date-fns";
+import { isToday, isAfter, addMinutes, set, format } from "date-fns";
 import Popup from "../../components/Popup/Popup";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
+import CheckIcon from "@mui/icons-material/Check";
+import { useNavigate } from "react-router-dom";
 
 const Reserves = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +25,9 @@ const Reserves = () => {
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
+  const navigate = useNavigate();
 
   const times = [
     "13:30",
@@ -92,10 +100,10 @@ const Reserves = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Obtener el elemento de la fecha
     const dateInput = document.getElementById("date-input");
-  
+
     if (dateInput) {
       // Validar si la fecha está seleccionada
       if (!formData.date) {
@@ -109,50 +117,63 @@ const Reserves = () => {
       // Asegurarse de que el campo de fecha está disponible
       console.error("El campo de fecha no fue encontrado");
     }
-  
+
+    setLoading(true);
     try {
+      const formattedDate = format(formData.date, "dd-MM-yyyy");
+
       // Crear cliente
       const createdClient = await createClient({
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
       });
-  
+
       const clientId = createdClient.data.id;
-  
+
       // Crear reserva
       await createReserve({
-        reservationDate: formData.date,
+        reservationDate: formattedDate,
         reservationTime: formData.time,
         adults: formData.adultsCounter,
         children: formData.kidsCounter,
         user: { id: clientId },
       });
-  
-      // Limpiar formulario
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        date: null,
-        time: "",
-        adultsCounter: 0,
-        kidsCounter: 0,
-      });
+
+      setLoading(false);
+      setSuccessMessage(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } catch (error) {
       const errorMessage = error.message.includes("Network Error")
         ? "Hubo un error de red. Intenta nuevamente."
         : "Hubo un error al procesar la reserva. Intenta nuevamente.";
-  
+
       setPopupMessage(errorMessage);
       setPopupType("error");
       setShowPopup(true);
+    } finally {
+      setLoading(false); // Se asegura de que el loader siempre se oculte
     }
   };
-  
 
   return (
     <div className="reserve-container">
+      {loading && (
+        <div className="loader-overlay">
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress />
+          </Box>
+        </div>
+      )}
+      {successMessage && (
+        <div className="success-message">
+          <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+            ¡Reserva realizada con éxito! Recibirás un correo con los detalles.
+          </Alert>
+        </div>
+      )}
       <form className="reserve-form" onSubmit={handleSubmit}>
         <h2>Reserva una Mesa</h2>
         <h3>Adultos</h3>

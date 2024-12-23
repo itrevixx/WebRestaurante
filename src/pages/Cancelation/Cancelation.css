@@ -1,5 +1,7 @@
 
 .cancelation-container{
+    padding-top: 150px;
     display: flex;
-    margin: 0;
+    align-items: center;
+    flex-direction: column;
 }

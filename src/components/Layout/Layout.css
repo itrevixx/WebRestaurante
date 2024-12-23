@@ -3,11 +3,11 @@ body {
     src: url('../../assets/CampanaScript_PERSONAL_USE_ONLY.otf') format('opentype');
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    height: 100vh;
 }
 
 /* Contenedor de la barra de navegación */
-nav {
+.navbar {
     display: flex;
     align-items: center;
     /* Centra verticalmente los elementos dentro del nav */
@@ -125,6 +125,7 @@ main {
     display: flex;
     flex-direction: column;
     width: 120px;
+    z-index: 9999;
 }
 
 /* Estilo de los elementos del dropdown */

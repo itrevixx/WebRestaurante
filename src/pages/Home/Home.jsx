@@ -11,7 +11,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const navigateReserves = () => {
-    navigate("/reservas");
+    navigate("/reserves");
   };
 
   const navigateMenus = () => {
