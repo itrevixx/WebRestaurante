@@ -41,10 +41,22 @@ const Menus = () => {
             </a>
           </li>
           <li>
-            <a href="/menus">MENÚ PARA GRUPOS 2</a>
+            <a
+              href="/public/menus/Menus Grupos Mediodia 2024 CASTELLANO.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              MENÚ PARA GRUPOS 2
+            </a>
           </li>
           <li>
-            <a href="/menus">MENÚ PARA BODDAS</a>
+            <a
+              href="/public/menus/Menus Grupos Mediodia 2024 CASTELLANO.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              MENÚ PARA BODDAS
+            </a>
           </li>
         </ul>
       </div>

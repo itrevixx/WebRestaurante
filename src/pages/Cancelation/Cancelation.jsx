@@ -4,11 +4,11 @@ import "./Cancelation.css";
 
 const Cancelation = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { token } = useParams();
 
   const handleCancel = async () => {
     try {
-      await deleteReservation(id);
+      await deleteReservation(token);
       alert("Reserva cancelada.");
       navigate("/");
     } catch (error) {
