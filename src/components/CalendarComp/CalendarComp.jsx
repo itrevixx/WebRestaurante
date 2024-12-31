@@ -1,4 +1,6 @@
-import React, { forwardRef } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
+import { forwardRef } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./CalendarComp.css";
@@ -29,7 +31,7 @@ const CalendarComp = forwardRef(({ date, setDate, required }, ref) => {
   };
 
   return (
-    <div>
+    <div className="calendar-container">
       <Calendar
         ref={ref}
         onChange={handleDateChange}

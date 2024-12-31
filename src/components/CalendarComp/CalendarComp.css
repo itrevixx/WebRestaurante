@@ -7,3 +7,10 @@
 .react-calendar__month-view__days__day--weekend.react-calendar__tile--active {
     color: white;
 }
+
+
+.calendar-container {
+    padding-top: 10px;
+    min-height: 340px;
+    overflow: hidden;
+}

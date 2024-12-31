@@ -45,7 +45,7 @@ const Reserves = () => {
   useEffect(() => {
     const filterTimes = () => {
       const now = new Date();
-      const selectedDate = formData.date; // Usa formData.date
+      const selectedDate = formData.date;
       if (isToday(selectedDate)) {
         const validTimes = times.filter((time) => {
           const [hour, minute] = time.split(":").map(Number);
@@ -148,13 +148,13 @@ const Reserves = () => {
     } catch (error) {
       const errorMessage = error.message.includes("Network Error")
         ? "Hubo un error de red. Intenta nuevamente."
-        : "Hubo un error al procesar la reserva. Intenta nuevamente.";
+        : "El límite de reservas ha sido alcanzado para esa hora, prueba con otra.";
 
       setPopupMessage(errorMessage);
       setPopupType("error");
       setShowPopup(true);
     } finally {
-      setLoading(false); // Se asegura de que el loader siempre se oculte
+      setLoading(false);
     }
   };
 

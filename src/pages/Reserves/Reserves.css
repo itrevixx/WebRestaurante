@@ -19,6 +19,7 @@ body {
     background-size: cover;
     padding-top: 100px;
     padding-bottom: 20px;
+    background-attachment: fixed;
     /* Añade espacio solo en la parte superior */
     font-family: Arial, sans-serif;
 }
