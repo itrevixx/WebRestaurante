@@ -14,13 +14,31 @@ const Menus = () => {
         <ul className="menus-list">
           {/* FALTA AÑADIR LOS PDFS A LOS BOTONES */}
           <li>
-            <a href="/menus">LA CARTA</a>
+            <a
+              href="/public/menus/Carta Los Caracoles 2024 Castellano.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LA CARTA
+            </a>
           </li>
           <li>
-            <a href="/menus">MENÚ</a>
+            <a
+              href="/public/menus/Menu del dia (L-V) 2024.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              MENÚ
+            </a>
           </li>
           <li>
-            <a href="/menus">MENÚ PARA GRUPOS 1</a>
+            <a
+              href="/public/menus/Menus Grupos Mediodia 2024 CASTELLANO.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              MENÚ PARA GRUPOS 1
+            </a>
           </li>
           <li>
             <a href="/menus">MENÚ PARA GRUPOS 2</a>
