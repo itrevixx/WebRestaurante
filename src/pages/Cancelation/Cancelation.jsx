@@ -1,24 +1,61 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import { deleteReservation } from "../../app/services/api/reserves";
+import { Alert, AlertTitle } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
 import "./Cancelation.css";
 
 const Cancelation = () => {
   const navigate = useNavigate();
   const { token } = useParams();
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleCancel = async () => {
     try {
+      setLoading(true);
       await deleteReservation(token);
-      alert("Reserva cancelada.");
-      navigate("/");
+      setLoading(false);
+      setSuccess("Reserva cancelada con éxito.");
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } catch (error) {
-      alert("No se ha podido cancelar la reserva:", error);
+      console.error(error);
+      setLoading(false);
+      setError(
+        "No se ha podido cancelar la reserva. Verifica el token o inténtalo de nuevo."
+      );
     }
   };
 
   return (
     <div className="cancelation-container">
-      <h2>Seguro que quieres cancelar la reserva?</h2>
+      {loading && (
+        <div className="loader-overlay">
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress />
+          </Box>
+        </div>
+      )}
+      <div style={{ height: "75px" }}>
+        {success && (
+          <Alert severity="success" onClose={() => setSuccess(null)}>
+            <AlertTitle>Éxito</AlertTitle>
+            {success}
+          </Alert>
+        )}
+        {error && (
+          <Alert severity="error" onClose={() => setError(null)}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        )}
+      </div>
+      <h2>¿Seguro que quieres cancelar la reserva?</h2>
       <button onClick={handleCancel}>Cancelar Reserva</button>
     </div>
   );

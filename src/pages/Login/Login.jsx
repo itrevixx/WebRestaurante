@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert, AlertTitle, TextField } from "@mui/material";
 import "./Login.css";
 import { login } from "../../app/services/api/login";
 
@@ -18,7 +18,6 @@ const Login = () => {
 
     try {
       await login({ username, password });
-      console.log("Sesión iniciada " + username);
       localStorage.setItem("username", username);
       navigate("/");
     } catch (error) {
@@ -45,24 +44,26 @@ const Login = () => {
         )}
       </div>
       <form onKeyDown={handleKeyDown}>
-        <input
+        <TextField
+          variant="outlined"
+          label="Username"
           type="text"
-          placeholder="username"
           value={username}
           onChange={(e) => {
             setUsername(e.target.value);
           }}
         />
-        <input
+        <TextField
           type="password"
-          placeholder="password"
+          variant="outlined"
+          label="Password"
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
         <button type="button" onClick={handleClick}>
-          Login
+          Acceder
         </button>
       </form>
     </div>
