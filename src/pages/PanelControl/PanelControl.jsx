@@ -4,10 +4,12 @@ import { getReserves } from "../../app/services/api/reserves";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Pagination from "@mui/material/Pagination";
+import TextField from "@mui/material/TextField";
 
 const PanelControl = () => {
   const [reserves, setReserves] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para el buscador
   const [currentPage, setCurrentPage] = useState(1); // Página actual
   const reservesPerPage = 8; // Número de reservas por página
 
@@ -26,10 +28,24 @@ const PanelControl = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Filtrar reservas según el término de búsqueda
+  const filteredReserves = reserves.filter((reserve) => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      reserve.contactName.toLowerCase().includes(searchLower) ||
+      reserve.contactPhone.includes(searchTerm) ||
+      reserve.reservationDate.includes(searchTerm) ||
+      reserve.reservationTime.includes(searchTerm) ||
+      reserve.numPeople.toString().includes(searchTerm) ||
+      reserve.adults.toString().includes(searchTerm) ||
+      reserve.children.toString().includes(searchTerm)
+    );
+  });
+
   // Calcular las reservas visibles para la página actual
   const indexOfLastReserve = currentPage * reservesPerPage;
   const indexOfFirstReserve = indexOfLastReserve - reservesPerPage;
-  const currentReserves = reserves.slice(
+  const currentReserves = filteredReserves.slice(
     indexOfFirstReserve,
     indexOfLastReserve
   );
@@ -42,6 +58,16 @@ const PanelControl = () => {
   return (
     <div className="panel-container">
       <h1>Lista de reservas</h1>
+
+      <TextField
+        label="Buscar reserva"
+        variant="outlined"
+        fullWidth
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        sx={{ marginBottom: "20px", width: "30%", margin: "auto" }}
+      />
+
       {loading && (
         <div className="loader-overlay">
           <Box sx={{ display: "flex" }}>
@@ -49,6 +75,7 @@ const PanelControl = () => {
           </Box>
         </div>
       )}
+
       <ul className="reserves-list">
         {currentReserves.map((reserve) => (
           <li className="reserve-item" key={reserve.id}>
@@ -64,8 +91,9 @@ const PanelControl = () => {
           </li>
         ))}
       </ul>
+
       <Pagination
-        count={Math.ceil(reserves.length / reservesPerPage)}
+        count={Math.ceil(filteredReserves.length / reservesPerPage)}
         page={currentPage}
         onChange={handlePageChange}
         sx={{
