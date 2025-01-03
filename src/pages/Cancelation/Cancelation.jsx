@@ -27,7 +27,7 @@ const Cancelation = () => {
       console.error(error);
       setLoading(false);
       setError(
-        "No se ha podido cancelar la reserva. Verifica el token o inténtalo de nuevo."
+        "No se ha podido cancelar la reserva. Verifica que estás cancelando la reserva con al menos 24 horas de antelación o inténtalo de nuevo."
       );
     }
   };
