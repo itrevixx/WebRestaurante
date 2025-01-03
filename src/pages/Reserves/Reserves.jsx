@@ -147,7 +147,7 @@ const Reserves = () => {
       }, 3000);
     } catch (error) {
       const errorMessage = error.message.includes("Network Error")
-        ? "Hubo un error de red. Intenta nuevamente."
+        ? "Hubo un error en la comunicación con el servidor. Intenta nuevamente."
         : "El límite de reservas ha sido alcanzado para esa hora, prueba con otra.";
 
       setPopupMessage(errorMessage);

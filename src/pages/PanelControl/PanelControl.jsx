@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react";
 import "./PanelControl.css";
-import { getReserves } from "../../app/services/api/reserves";
+import {
+  getReserves,
+  deleteManualReserve,
+} from "../../app/services/api/reserves"; // Asegúrate de tener deleteReserve en tus servicios API
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Pagination from "@mui/material/Pagination";
 import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 const PanelControl = () => {
   const [reserves, setReserves] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para el buscador
-  const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const reservesPerPage = 8; // Número de reservas por página
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const reservesPerPage = 8;
+
+  // Estados para el diálogo
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedReserve, setSelectedReserve] = useState(null);
 
   const fetchReserves = async () => {
     setLoading(true);
@@ -28,7 +40,6 @@ const PanelControl = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Filtrar reservas según el término de búsqueda
   const filteredReserves = reserves.filter((reserve) => {
     const searchLower = searchTerm.toLowerCase();
     return (
@@ -42,7 +53,6 @@ const PanelControl = () => {
     );
   });
 
-  // Calcular las reservas visibles para la página actual
   const indexOfLastReserve = currentPage * reservesPerPage;
   const indexOfFirstReserve = indexOfLastReserve - reservesPerPage;
   const currentReserves = filteredReserves.slice(
@@ -50,15 +60,31 @@ const PanelControl = () => {
     indexOfLastReserve
   );
 
-  // Cambiar de página
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
+  };
+
+  const handleDeleteReserve = async () => {
+    if (selectedReserve) {
+      await deleteManualReserve(selectedReserve.token);
+      fetchReserves();
+      setOpenDialog(false);
+    }
+  };
+
+  const openConfirmDialog = (reserve) => {
+    setSelectedReserve(reserve);
+    setOpenDialog(true);
+  };
+
+  const closeDialog = () => {
+    setOpenDialog(false);
+    setSelectedReserve(null);
   };
 
   return (
     <div className="panel-container">
       <h1>Lista de reservas</h1>
-
       <TextField
         label="Buscar reserva"
         variant="outlined"
@@ -88,10 +114,37 @@ const PanelControl = () => {
               <p>Número de adultos: {reserve.adults}</p>
               <p>Número de niños: {reserve.children}</p>
             </div>
+            <Button
+              color="error"
+              variant="contained"
+              onClick={() => openConfirmDialog(reserve)}
+            >
+              Eliminar Reserva
+            </Button>
           </li>
         ))}
       </ul>
-
+      <Dialog open={openDialog} onClose={closeDialog}>
+        <DialogTitle>Confirmar eliminación</DialogTitle>
+        <DialogContent sx={{ fontFamily: "Arial" }}>
+          <p>
+            ¿Estás seguro de que quieres eliminar la reserva a nombre de{" "}
+            {selectedReserve?.contactName}?
+          </p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDialog} color="primary" variant="contained">
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleDeleteReserve}
+            color="error"
+            variant="contained"
+          >
+            Eliminar
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Pagination
         count={Math.ceil(filteredReserves.length / reservesPerPage)}
         page={currentPage}
