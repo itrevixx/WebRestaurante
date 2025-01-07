@@ -9,10 +9,6 @@ body {
 /* Contenedor de la barra de navegación */
 .navbar {
     display: flex;
-    align-items: center;
-    /* Centra verticalmente los elementos dentro del nav */
-    justify-content: space-between;
-    /* Espacio entre el logo a la izquierda y los enlaces al centro */
     position: fixed;
     width: 100%;
     height: 60px;
@@ -59,8 +55,7 @@ body {
     margin: 0;
     flex-grow: 1;
     /* Asegura que el contenedor de los enlaces ocupe el espacio restante */
-    justify-content: center;
-    /* Centra los enlaces horizontalmente */
+    margin-left: 300px;
     gap: 20px;
     /* Espacio entre los enlaces */
     align-items: center;

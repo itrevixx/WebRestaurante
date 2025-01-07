@@ -3,7 +3,7 @@ import "./PanelControl.css";
 import {
   getReserves,
   deleteManualReserve,
-} from "../../app/services/api/reserves"; // Asegúrate de tener deleteReserve en tus servicios API
+} from "../../app/services/api/reserves";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Pagination from "@mui/material/Pagination";
@@ -13,6 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import AddReserve from "../../components/AddReserve";
 
 const PanelControl = () => {
   const [reserves, setReserves] = useState([]);
@@ -20,8 +21,7 @@ const PanelControl = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const reservesPerPage = 8;
-
-  // Estados para el diálogo
+  const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedReserve, setSelectedReserve] = useState(null);
 
@@ -82,9 +82,21 @@ const PanelControl = () => {
     setSelectedReserve(null);
   };
 
+  const openAddReserve = () => {
+    setOpen(true);
+  };
+
   return (
     <div className="panel-container">
+      <AddReserve open={open} setOpen={setOpen} fetchReserves={fetchReserves} />
       <h1>Lista de reservas</h1>
+      <Button
+        variant="contained"
+        onClick={openAddReserve}
+        sx={{ width: "15%", margin: "auto", marginBottom: "20px" }}
+      >
+        Añadir reserva
+      </Button>
       <TextField
         label="Buscar reserva"
         variant="outlined"
