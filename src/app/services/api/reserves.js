@@ -3,6 +3,18 @@ import instance from "./api";
 export const createReserve = async (obj) =>
   await instance.post("/reservations/create", obj);
 
+export const createReserveManual = async (obj) => {
+  const username = localStorage.getItem("username");
+  const password = localStorage.getItem("password");
+
+  return await instance.post("/reservations/createManual", obj, {
+    auth: {
+      username: username,
+      password: password,
+    },
+  });
+};
+
 export const deleteReservation = async (token) =>
   await instance.delete(`/reservations/cancel/${token}`);
 
