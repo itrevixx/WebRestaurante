@@ -54,10 +54,8 @@ body {
     padding: 0;
     margin: 0;
     flex-grow: 1;
-    /* Asegura que el contenedor de los enlaces ocupe el espacio restante */
-    margin-left: 300px;
+    justify-content: center;
     gap: 20px;
-    /* Espacio entre los enlaces */
     align-items: center;
 }
 
