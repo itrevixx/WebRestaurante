@@ -1,5 +1,6 @@
 import Mapa from "../../components/Mapa";
 import "./Menus.css";
+import Menupdf from "../../assets/ejemplo-menu.pdf";
 
 const Menus = () => {
   return (
@@ -14,19 +15,16 @@ const Menus = () => {
         <ul className="menus-list">
           {/* FALTA AÑADIR LOS PDFS A LOS BOTONES */}
           <li>
-            <a href="/menus">LA CARTA</a>
+            <a href={Menupdf} target="_blank">LA CARTA</a>
           </li>
           <li>
-            <a href="/menus">MENÚ</a>
+            <a href={Menupdf} target="_blank">MENÚ PARA GRUPOS 1</a>
           </li>
           <li>
-            <a href="/menus">MENÚ PARA GRUPOS 1</a>
+            <a href={Menupdf} target="_blank">MENÚ PARA GRUPOS 2</a>
           </li>
           <li>
-            <a href="/menus">MENÚ PARA GRUPOS 2</a>
-          </li>
-          <li>
-            <a href="/menus">MENÚ PARA BODDAS</a>
+            <a href={Menupdf} target="_blank">MENÚ PARA BODDAS</a>
           </li>
         </ul>
       </div>
