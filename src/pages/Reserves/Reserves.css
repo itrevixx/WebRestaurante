@@ -31,7 +31,7 @@ h2 {
 }
 
 h3 {
-        margin: 0;
+    margin: 0;
 }
 
 /* Formulario de reserva */
@@ -47,7 +47,6 @@ h3 {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
-
 
 /* Campos de entrada */
 .input-field {
@@ -102,6 +101,17 @@ h3 {
     border-radius: 4px;
     box-sizing: border-box;
     /* Asegura que los bordes y padding no afecten las dimensiones */
+}
+
+/* Deshabilitar flechas en inputs tipo number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 /* Efecto hover sobre los botones */

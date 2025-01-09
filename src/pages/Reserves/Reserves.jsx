@@ -92,10 +92,10 @@ const Reserves = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Obtener el elemento de la fecha
     const dateInput = document.getElementById("date-input");
-  
+
     if (dateInput) {
       // Validar si la fecha está seleccionada
       if (!formData.date) {
@@ -109,7 +109,7 @@ const Reserves = () => {
       // Asegurarse de que el campo de fecha está disponible
       console.error("El campo de fecha no fue encontrado");
     }
-  
+
     try {
       // Crear cliente
       const createdClient = await createClient({
@@ -117,9 +117,9 @@ const Reserves = () => {
         phone: formData.phone,
         email: formData.email,
       });
-  
+
       const clientId = createdClient.data.id;
-  
+
       // Crear reserva
       await createReserve({
         reservationDate: formData.date,
@@ -128,7 +128,7 @@ const Reserves = () => {
         children: formData.kidsCounter,
         user: { id: clientId },
       });
-  
+
       // Limpiar formulario
       setFormData({
         name: "",
@@ -143,13 +143,12 @@ const Reserves = () => {
       const errorMessage = error.message.includes("Network Error")
         ? "Hubo un error de red. Intenta nuevamente."
         : "Hubo un error al procesar la reserva. Intenta nuevamente.";
-  
+
       setPopupMessage(errorMessage);
       setPopupType("error");
       setShowPopup(true);
     }
   };
-  
 
   return (
     <div className="reserve-container">
@@ -273,8 +272,6 @@ const Reserves = () => {
           date={formData.date}
           setDate={(date) => setFormData((prev) => ({ ...prev, date }))}
           onChange={handleInputChange}
-          // onInput={validateEmail}
-          // onInvalid={validateEmail}
           required
         />
 
