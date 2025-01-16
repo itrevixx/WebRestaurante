@@ -2,12 +2,29 @@
     color: black;
 }
 
-
-
 .react-calendar__month-view__days__day--weekend.react-calendar__tile--active {
     color: white;
 }
 
+.error {
+    color: red; /* Color de texto más visible */
+    font-size: 14px; /* Aumentar el tamaño de la fuente */
+    font-weight: bold; /* Hacer el texto más destacado */
+    margin-top: 5px; /* Separación entre el calendario y el mensaje */
+    margin-bottom: 10px;
+    padding: 5px; /* Agregar un poco de espacio alrededor del texto */
+    background-color: #f8d7da; /* Fondo rojo claro */
+    border: 1px solid #f5c6cb; /* Borde rojo claro */
+    border-radius: 4px; /* Bordes redondeados */
+    display: block; /* Asegura que el mensaje ocupe su propio espacio */
+    width: 100%; /* Hace que el mensaje ocupe todo el ancho disponible */
+    text-align: center; /* Centra el texto */
+}
+
+.calendar-container {
+  margin-top: 20px; /* Margen superior */
+  margin-bottom: 20px; /* Margen inferior */
+}
 
 .calendar-container {
     padding-top: 10px;

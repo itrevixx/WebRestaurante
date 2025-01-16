@@ -31,6 +31,20 @@ const CalendarComp = forwardRef(({ date, setDate, required }, ref) => {
   };
 
   return (
+    <div>
+      <div className="calendar-container">
+        <Calendar
+          ref={ref}
+          onChange={handleDateChange}
+          value={date}
+          minDate={new Date()}
+          minDetail="year"
+          next2Label={null}
+          prev2Label={null}
+          tileDisabled={disableMondays}
+          showNeighboringMonth={false}
+        />
+      </div>
     <div className="calendar-container">
       <Calendar
         ref={ref}
@@ -53,7 +67,9 @@ const CalendarComp = forwardRef(({ date, setDate, required }, ref) => {
         style={{ display: "none" }} // Input oculto
       />
       {required && !date && (
-        <span className="error">Por favor, selecciona una fecha.</span>
+        <span className="error">
+          Por favor, selecciona el día de la reserva.
+        </span>
       )}
     </div>
   );

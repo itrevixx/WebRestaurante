@@ -1,27 +1,27 @@
 /* Reset de márgenes y padding */
-body {
+body, html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* Contenedor principal de la reserva */
 .reserve-container {
     display: flex;
     justify-content: center;
-    /* Centra el formulario horizontalmente */
     align-items: center;
-    /* Centra el formulario verticalmente */
-    min-height: 100vh;
-    /* Asegura que el contenedor ocupe al menos el alto de la pantalla */
+    height: 100vh; /* Asegura que el contenedor ocupe exactamente la altura de la ventana */
     background-image: url('../../assets/fondo-reserva.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 0; /* Elimina padding para evitar desbordamiento */
     padding-top: 100px;
     padding-bottom: 20px;
     background-attachment: fixed;
     /* Añade espacio solo en la parte superior */
     font-family: Arial, sans-serif;
+    box-sizing: border-box;
 }
 
 /* Título de la sección */
@@ -32,28 +32,29 @@ h2 {
 }
 
 h3 {
-        margin: 0;
+    margin: 0;
 }
 
 /* Formulario de reserva */
 .reserve-form {
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color:white;
+    height: 90%;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    overflow: hidden; /* Evita que el formulario haga scroll */
+    box-sizing: border-box; /* Asegura que el padding no cause desbordamiento */
 }
-
 
 /* Campos de entrada */
 .input-field {
     width: 75%;
-    padding: 10px;
+    padding: 8px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -63,8 +64,8 @@ h3 {
 /* Campo select */
 .select-field {
     width: 80%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 5px;
+    margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
@@ -82,8 +83,8 @@ h3 {
 
 /* Botones de incremento y decremento */
 .counter-group button {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     font-size: 18px;
     color: #333;
     background-color: #f1f1f1;
@@ -95,8 +96,8 @@ h3 {
 
 /* Input del contador */
 .counter-group input {
-    width: 130px; /* Ajustado al tamaño de los botones */
-    height: 40px; /* Igual a la altura de los botones */
+    width: 120px; /* Ajustado al tamaño de los botones */
+    height: 30px; /* Igual a la altura de los botones */
     text-align: center;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -104,6 +105,19 @@ h3 {
     box-sizing: border-box;
     /* Asegura que los bordes y padding no afecten las dimensiones */
 }
+
+/* Deshabilitar flechas en inputs tipo number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    appearance: textfield; /* Standard property */
+    -moz-appearance: textfield; /* Firefox-specific property */
+}
+
 
 /* Efecto hover sobre los botones */
 .counter-group button:hover {
@@ -128,7 +142,7 @@ h3 {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 

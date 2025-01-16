@@ -3,6 +3,7 @@ import { createClient } from "../../app/services/api/clients";
 import { createReserve } from "../../app/services/api/reserves";
 import "./Reserves.css";
 import CalendarComp from "../../components/CalendarComp/CalendarComp";
+import { isToday, isAfter, addMinutes, set } from "date-fns";
 import { isToday, isAfter, addMinutes, set, format } from "date-fns";
 import Popup from "../../components/Popup/Popup";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -64,40 +65,44 @@ const Reserves = () => {
   }, [formData.date]);
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "number" ? Number(value) : value,
     }));
   };
 
-  const validatePhone = (e) => {
-    const phoneField = e.target;
-    const phoneRegex = /^\d{9}$/; // Solo permite exactamente 9 dígitos
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    if (!phoneField.value.trim()) {
-      phoneField.setCustomValidity("Es necesario introducir un teléfono");
-    } else if (!phoneRegex.test(phoneField.value)) {
-      phoneField.setCustomValidity("Introduce un teléfono válido de 9 dígitos");
+    // Validación de adultos y niños
+    if (formData.adultsCounter <= 0 && formData.kidsCounter <= 0) {
+      // Si no hay adultos ni niños, mostrar el error
+      const adultsInput = document.getElementById("adults-input");
+      const kidsInput = document.getElementById("kids-input");
+
+      // Establecer custom validity en los inputs de adultos y niños
+      adultsInput.setCustomValidity(
+        "Número de personas obligatorio para la reserva"
+      );
+      kidsInput.setCustomValidity(
+        "Número de personas obligatorio para la reserva"
+      );
+
+      // Mostrar el mensaje de error
+      adultsInput.reportValidity(); // Esto mostrará el mensaje de error
+      kidsInput.reportValidity();
+
+      return; // Detener el envío del formulario si no hay adultos ni niños
     } else {
-      phoneField.setCustomValidity("");
+      // Restablecer custom validity si los valores son válidos
+      const adultsInput = document.getElementById("adults-input");
+      const kidsInput = document.getElementById("kids-input");
+      adultsInput.setCustomValidity("");
+      kidsInput.setCustomValidity("");
     }
-  };
 
-  const validateEmail = (e) => {
-    const emailField = e.target;
-    const emailValue = emailField.value.trim(); // Asegurarse de que no tenga espacios en blanco
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    if (!emailValue) {
-      emailField.setCustomValidity("Introduce un email");
-    } else if (!emailRegex.test(emailValue)) {
-      emailField.setCustomValidity("Introduce un email válido");
-    } else {
-      emailField.setCustomValidity("");
-    }
-  };
-
+    // Validación de otros campos (como fecha, teléfono, email)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -105,17 +110,13 @@ const Reserves = () => {
     const dateInput = document.getElementById("date-input");
 
     if (dateInput) {
-      // Validar si la fecha está seleccionada
       if (!formData.date) {
         dateInput.setCustomValidity("Por favor, selecciona una fecha.");
-        dateInput.reportValidity(); // Esto muestra el mensaje de error
-        return; // No continúa con la reserva si no hay fecha seleccionada
+        dateInput.reportValidity(); // Mostrar el mensaje de error
+        return; // Detener el envío del formulario si no se selecciona una fecha
       } else {
-        dateInput.setCustomValidity(""); // Resetea el mensaje de error si la fecha es válida
+        dateInput.setCustomValidity(""); // Restablecer el mensaje de error si la fecha es válida
       }
-    } else {
-      // Asegurarse de que el campo de fecha está disponible
-      console.error("El campo de fecha no fue encontrado");
     }
 
     setLoading(true);
@@ -140,6 +141,20 @@ const Reserves = () => {
         user: { id: clientId },
       });
 
+      // Limpiar formulario
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        date: null,
+        time: "",
+        adultsCounter: 0,
+        kidsCounter: 0,
+      });
+    } catch (error) {
+      const errorMessage = error.message.includes("Network Error")
+        ? "Hubo un error de red. Intenta nuevamente."
+        : "Hubo un error al procesar la reserva. Intenta nuevamente.";
       setLoading(false);
       setSuccessMessage(true);
       setTimeout(() => {
@@ -157,6 +172,18 @@ const Reserves = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Solo se ejecuta si los valores de los contadores cambian
+    const adultsInput = document.getElementById("adults-input");
+    const kidsInput = document.getElementById("kids-input");
+
+    if (formData.adultsCounter > 0 || formData.kidsCounter > 0) {
+      // Si hay adultos o niños, restablecer el mensaje de error
+      adultsInput.setCustomValidity("");
+      kidsInput.setCustomValidity("");
+    }
+  }, [formData.adultsCounter, formData.kidsCounter]); // Dependencia de los contadores
 
   return (
     <div className="reserve-container">
@@ -191,6 +218,7 @@ const Reserves = () => {
           </button>
           <input
             type="number"
+            id="adults-input"
             className="adultsCounter"
             value={formData.adultsCounter}
             onChange={(e) =>
@@ -227,6 +255,7 @@ const Reserves = () => {
           </button>
           <input
             type="number"
+            id="kids-input"
             className="kidsCounter"
             value={formData.kidsCounter}
             onChange={(e) =>
@@ -249,6 +278,7 @@ const Reserves = () => {
           </button>
         </div>
 
+        {/* Otros campos */}
         <input
           type="text"
           name="name"
@@ -257,10 +287,6 @@ const Reserves = () => {
           placeholder="Nombre"
           value={formData.name}
           onChange={handleInputChange}
-          onInput={(e) => e.target.setCustomValidity("")}
-          onInvalid={(e) =>
-            e.target.setCustomValidity("El nombre es obligatorio")
-          }
           required
         />
 
@@ -273,8 +299,6 @@ const Reserves = () => {
           maxLength={9}
           value={formData.phone}
           onChange={handleInputChange}
-          onInput={validatePhone}
-          onInvalid={validatePhone}
           required
         />
 
@@ -286,16 +310,12 @@ const Reserves = () => {
           placeholder="Email"
           value={formData.email}
           onChange={handleInputChange}
-          onInput={validateEmail}
-          onInvalid={validateEmail}
           required
         />
+
         <CalendarComp
           date={formData.date}
           setDate={(date) => setFormData((prev) => ({ ...prev, date }))}
-          onChange={handleInputChange}
-          // onInput={validateEmail}
-          // onInvalid={validateEmail}
           required
         />
 
@@ -304,15 +324,11 @@ const Reserves = () => {
           value={formData.time}
           name="time"
           onChange={handleInputChange}
-          onInput={(e) => e.target.setCustomValidity("")}
-          onInvalid={(e) =>
-            e.target.setCustomValidity("Selecciona la hora de la reserva")
-          }
           required
         >
           <option value="">Selecciona una hora</option>
           {filteredTimes.map((time, index) => (
-            <option key={index} value={time} id="time">
+            <option key={index} value={time}>
               {time}
             </option>
           ))}
@@ -322,14 +338,6 @@ const Reserves = () => {
           Reservar
         </button>
       </form>
-
-      {showPopup && (
-        <Popup
-          message={popupMessage}
-          type={popupType}
-          onClose={() => setShowPopup(false)}
-        />
-      )}
     </div>
   );
 };
