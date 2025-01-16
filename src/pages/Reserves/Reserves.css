@@ -1,26 +1,23 @@
 /* Reset de márgenes y padding */
-body {
+body, html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* Contenedor principal de la reserva */
 .reserve-container {
     display: flex;
     justify-content: center;
-    /* Centra el formulario horizontalmente */
     align-items: center;
-    /* Centra el formulario verticalmente */
-    min-height: 100vh;
-    /* Asegura que el contenedor ocupe al menos el alto de la pantalla */
+    height: 100vh; /* Asegura que el contenedor ocupe exactamente la altura de la ventana */
     background-image: url('../../assets/fondo-reserva.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 100px;
-    padding-bottom: 20px;
-    /* Añade espacio solo en la parte superior */
+    padding: 0; /* Elimina padding para evitar desbordamiento */
     font-family: Arial, sans-serif;
+    box-sizing: border-box;
 }
 
 /* Título de la sección */
@@ -36,22 +33,24 @@ h3 {
 
 /* Formulario de reserva */
 .reserve-form {
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color:white;
+    height: 90%;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    overflow: hidden; /* Evita que el formulario haga scroll */
+    box-sizing: border-box; /* Asegura que el padding no cause desbordamiento */
 }
 
 /* Campos de entrada */
 .input-field {
     width: 75%;
-    padding: 10px;
+    padding: 8px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -61,8 +60,8 @@ h3 {
 /* Campo select */
 .select-field {
     width: 80%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 5px;
+    margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
@@ -80,8 +79,8 @@ h3 {
 
 /* Botones de incremento y decremento */
 .counter-group button {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     font-size: 18px;
     color: #333;
     background-color: #f1f1f1;
@@ -93,8 +92,8 @@ h3 {
 
 /* Input del contador */
 .counter-group input {
-    width: 130px; /* Ajustado al tamaño de los botones */
-    height: 40px; /* Igual a la altura de los botones */
+    width: 120px; /* Ajustado al tamaño de los botones */
+    height: 30px; /* Igual a la altura de los botones */
     text-align: center;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -137,38 +136,11 @@ input[type="number"] {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
 /* Efecto hover sobre el botón de reserva */
 .reserve-button:hover {
     background-color: rgb(255, 136, 0);
-}
-
-/* Estilo del botón de reserva al estar enfocado */
-.reserve-button:focus {
-    outline: none;
-}
-
-/* Información de contacto */
-.contact-info {
-    text-align: center;
-    font-size: 14px;
-    color: #555;
-    margin-top: 10px;
-}
-
-/* Enlaces en la sección de contacto */
-.contact-info a {
-    color: #d4a356;
-    text-decoration: none;
-}
-
-/* Cambio de idioma */
-.language-switch {
-    text-align: center;
-    font-size: 12px;
-    color: #555;
-    margin-top: 10px;
 }
