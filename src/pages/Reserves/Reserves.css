@@ -110,8 +110,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 input[type="number"] {
-    -moz-appearance: textfield;
+    appearance: textfield; /* Standard property */
+    -moz-appearance: textfield; /* Firefox-specific property */
 }
+
 
 /* Efecto hover sobre los botones */
 .counter-group button:hover {
