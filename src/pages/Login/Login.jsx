@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
 import { useState } from "react";
+import { Alert, AlertTitle, TextField } from "@mui/material";
+import "./Login.css";
 import { login } from "../../app/services/api/login";
 
 const Login = () => {
@@ -8,16 +9,29 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleClick = async () => {
+    if (!username || !password) {
+      setError("Por favor, rellena todos los campos.");
+      return;
+    }
+
     try {
       await login({ username, password });
-      console.log("Sesión iniciada " + username);
-      localStorage.setItem("username", username); // Guardar username en localStorage
-      navigate("/"); // Redirigir al inicio
+      localStorage.setItem("username", username);
+      localStorage.setItem("password", password);
+      navigate("/");
     } catch (error) {
-      console.log(error);
-      console.log("Error al iniciar sesión");
+      console.error(error);
+      setError("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleClick();
     }
   };
 
@@ -55,6 +69,38 @@ const Login = () => {
           <button onClick={handleClick}>Login</button>
         </div>
       </div>
+    <div className="login">
+      <div style={{ height: "75px" }}>
+        {error && (
+          <Alert severity="error" onClose={() => setError(null)}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        )}
+      </div>
+      <form onKeyDown={handleKeyDown}>
+        <TextField
+          variant="outlined"
+          label="Username"
+          type="text"
+          value={username}
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
+        />
+        <TextField
+          type="password"
+          variant="outlined"
+          label="Password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+        <button type="button" onClick={handleClick}>
+          Acceder
+        </button>
+      </form>
     </div>
   );
 };

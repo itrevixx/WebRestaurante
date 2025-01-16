@@ -26,6 +26,41 @@ const Menus = () => {
           <li>
             <a href={Menupdf} target="_blank">MENÚ PARA BODDAS</a>
           </li>
+          <a
+            href="/public/menus/Carta Los Caracoles 2024 Castellano.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <li>LA CARTA</li>
+          </a>
+          <a
+            href="/public/menus/Menu del dia (L-V) 2024.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <li>MENÚ</li>
+          </a>
+          <a
+            href="/public/menus/Menus Grupos Mediodia 2024 CASTELLANO.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <li>MENÚ PARA GRUPOS 1</li>
+          </a>
+          <a
+            href="/public/menus/Menus Grupos Mediodia 2024 CASTELLANO.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <li>MENÚ PARA GRUPOS 2</li>
+          </a>
+          <a
+            href="/public/menus/Menus Grupos Mediodia 2024 CASTELLANO.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <li>MENÚ PARA BODAS</li>
+          </a>
         </ul>
       </div>
       <Mapa />

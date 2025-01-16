@@ -1,48 +1,61 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import { deleteReservation } from "../../app/services/api/reserves";
+import { Alert, AlertTitle } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
 import "./Cancelation.css";
 
 const Cancelation = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { token } = useParams();
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleCancel = async () => {
     try {
-      await deleteReservation(id);
-      alert("Reserva cancelada.");
-      navigate("/");
+      setLoading(true);
+      await deleteReservation(token);
+      setLoading(false);
+      setSuccess("Reserva cancelada con éxito.");
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } catch (error) {
-      alert("No se ha podido cancelar la reserva:", error);
+      console.error(error);
+      setLoading(false);
+      setError(
+        "No se ha podido cancelar la reserva. Verifica que estás cancelando la reserva con al menos 24 horas de antelación o inténtalo de nuevo."
+      );
     }
   };
 
   return (
     <div className="cancelation-container">
-      <h2>Cancelar Reserva</h2>
-      <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. A aspernatur
-        hic error fugiat sapiente accusantium, atque explicabo eius. Corrupti
-        fugiat, voluptate in libero quaerat porro, sed repellat quos repellendus
-        est voluptas, totam nobis dolores eveniet tempora eligendi illum? Soluta
-        laudantium ex labore facere molestiae vero, debitis dolorum ipsa dolore
-        blanditiis magni incidunt odit? Eligendi, illum laborum omnis odit
-        voluptatem reiciendis quisquam, repellendus sit, nisi neque ex. Impedit
-        corrupti nobis, reprehenderit consequuntur nesciunt, commodi consectetur
-        tempore itaque quam beatae qui modi. Fugiat animi a hic nobis aliquam
-        voluptatum vitae autem aliquid consequatur eius, omnis totam modi,
-        distinctio ut sapiente saepe. Molestias cumque odit placeat! Odio
-        nostrum sed at vel id placeat saepe, natus, animi error minima aliquam
-        facere reiciendis ad quam laboriosam, voluptatibus voluptatem? Eius
-        aliquid necessitatibus alias cum impedit nulla tempore quisquam, quae
-        magnam quaerat atque. Nobis ducimus maiores officiis eum, repellendus
-        blanditiis libero magnam, tenetur debitis nulla veritatis ratione quos.
-        Impedit consectetur totam sed, delectus officia dicta quos aperiam,
-        saepe cupiditate vero quidem repellat odio dolores tenetur pariatur a!
-        Facere ad architecto doloremque temporibus tempore nemo quaerat
-        suscipit. A assumenda totam facere officiis quis perferendis, dolorem
-        provident exercitationem laudantium porro. Aliquam itaque non tempore.
-        Assumenda voluptatem ad nisi repellendus.
-      </p>
+      {loading && (
+        <div className="loader-overlay">
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress />
+          </Box>
+        </div>
+      )}
+      <div style={{ height: "75px" }}>
+        {success && (
+          <Alert severity="success" onClose={() => setSuccess(null)}>
+            <AlertTitle>Éxito</AlertTitle>
+            {success}
+          </Alert>
+        )}
+        {error && (
+          <Alert severity="error" onClose={() => setError(null)}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        )}
+      </div>
+      <h2>¿Seguro que quieres cancelar la reserva?</h2>
       <button onClick={handleCancel}>Cancelar Reserva</button>
     </div>
   );

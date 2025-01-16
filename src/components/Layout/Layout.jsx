@@ -54,7 +54,7 @@ const Layout = ({ children }) => {
 
   return (
     <div onClick={closeDropdown}>
-      <nav>
+      <nav className="navbar">
         <div className="logo-container">
           <Link to="/">
             <img className="logo" src={logo} alt="logo" />
@@ -81,7 +81,7 @@ const Layout = ({ children }) => {
               <span
                 className="dropdown-toggle"
                 onClick={(e) => {
-                  e.stopPropagation(); // Evita que el evento cierre el dropdown
+                  e.stopPropagation();
                   toggleDropdown();
                 }}
               >

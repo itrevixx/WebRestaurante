@@ -1,17 +1,43 @@
 .panel-container {
+    padding-top: 100px;
     display: flex;
-    background-color: gray;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+    /* Necesario para que el loader se ajuste */
 }
-.panel-container ul {
+
+.reserves-list {
     display: flex;
-    gap: 100px;
-    padding: 100px;
+    padding: 20px;
+    gap: 80px;
     list-style: none;
-    
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.reserve-item {
+    padding: 20px;
+    border: 2px solid black;
+    background-color: rgb(182, 202, 202);
     
 }
 
-.panel-container li {
-    background-color: white;
-    padding: 20px;
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
 }

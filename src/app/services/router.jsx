@@ -15,21 +15,23 @@ import PrivateRoute from "../../components/PrivateRoute.jsx";
 
 const Router = () => (
   <BrowserRouter>
-    <ScrollToTop /> {/* Aquí se agrega ScrollToTop para que al cambiar de página siempre empiece desde arriba */}
+    <ScrollToTop />{" "}
+    {/* Aquí se agrega ScrollToTop para que al cambiar de página siempre empiece desde arriba */}
     <Layout>
-      <PageTransition> {/* Hace una animación suave al cambiar de página */}	  
+      <PageTransition>
+        {" "}
+        {/* Hace una animación suave al cambiar de página */}
         <Routes>
           <Route index element={<Home />} />
           <Route path="/menus" element={<Menus />} />
           <Route path="/events" element={<Events />} />
           <Route path="/reserves" element={<Reserves />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/reservations/cancel/:id" element={<Cancelation />} />
+          <Route path="/reservations/cancel/:token" element={<Cancelation />} />
           {/* Ruta de error 404 */}
           <Route path="/login" element={<Login />} />
           <Route path="/panel" element={<PrivateRoute element={<Panel />} />} />
           <Route path="*" element={<div>404 - Página no encontrada</div>} />
-
         </Routes>
       </PageTransition>
     </Layout>

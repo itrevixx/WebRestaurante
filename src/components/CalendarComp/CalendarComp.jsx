@@ -1,4 +1,6 @@
-import React, { forwardRef } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
+import { forwardRef } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./CalendarComp.css";
@@ -43,6 +45,18 @@ const CalendarComp = forwardRef(({ date, setDate, required }, ref) => {
           showNeighboringMonth={false}
         />
       </div>
+    <div className="calendar-container">
+      <Calendar
+        ref={ref}
+        onChange={handleDateChange}
+        value={date}
+        minDate={new Date()}
+        minDetail="year"
+        next2Label={null}
+        prev2Label={null}
+        tileDisabled={disableMondays}
+        showNeighboringMonth={false}
+      />
       <input
         type="text"
         id="date-input"
